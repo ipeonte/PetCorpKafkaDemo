@@ -1,0 +1,5 @@
+{"properties": [{
+  "name": "cookie.domain",
+  "type": "java.lang.String",
+  "description": "The name of cookie domain to create and also redirection site"
+}]}

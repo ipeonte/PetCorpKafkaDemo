@@ -1,0 +1,43 @@
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  </head>
+
+  <body text="#000000" bgcolor="#FFFFFF">
+    <div class="border border-primary rounded">
+      <h3 class="text-center">New Pet Form</h3>
+      <form class="new-pet">
+        <div class="form-group">
+          <label>Pet Name</label>
+          <input type="text" class="form-control" placeholder="Enter Pet Name"
+            ng-model="pet.name" 
+            ng_pattern="name_regex">
+        </div>
+        <div class="form-group">
+          <label>Select Pet Sex</label>
+          <select class="form-control" ng-model="pet.sex">
+            <option value="Male">Male</option>
+            <option value="Female">Femail</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Is Vaccinated ?</label>
+          <select class="form-control" ng-model="pet.vaccinated">
+            <option value="Y">Yes</option>
+            <option value="N" ng-selected="selected">No</option>
+          </select>
+        </div>
+
+        <button type="button" class="btn btn-primary"
+            ng-disabled="!pet.name || !pet.sex"
+            ng-click="ok()">
+          Submit
+        </button>
+        <button type="button" class="btn btn-default float-right"
+            ng-click="cancel()">
+          Cancel
+        </button>
+      </form>
+    </div>
+  </body>
+</html>

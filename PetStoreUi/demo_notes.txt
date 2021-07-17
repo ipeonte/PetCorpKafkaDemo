@@ -1,0 +1,7 @@
+Form features:
+
+Button enabled when input field is active
+Error validation is minimal (mostly JSR303)
+Drop down menu with pet sex selection
+
+Event communication between controllers

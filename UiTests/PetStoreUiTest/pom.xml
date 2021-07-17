@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<packaging>jar</packaging>
+	<artifactId>ui-test</artifactId>
+	<version>1.1.0</version>
+
+	<name>PetStoreUiTest</name>
+	<description>UI Test</description>
+
+    <parent>
+		<groupId>com.example.demo.pet-corp</groupId>
+		<artifactId>parent-petcorp</artifactId>
+		<version>1.0.0</version>
+		<relativePath/>
+	</parent>
+
+	<licenses>
+		<license>
+			<name>GNU Lesser General Public License v3.0</name>
+			<url>http://www.gnu.org/licenses/lgpl-3.0.txt</url>
+		</license>
+	</licenses>
+
+	<properties>
+		<java.version>1.8</java.version>
+		<maven.compiler.source>${java.version}</maven.compiler.source>
+		<maven.compiler.target>${java.version}</maven.compiler.target>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<selenium.version>2.53.1</selenium.version>
+		<scm-plugin.version>1.11.2</scm-plugin.version>
+	</properties>
+
+	<scm>
+<!-- 		<developerConnection>scm:git:file:///path_to_PetStoreUi </developerConnection> -->
+	</scm>
+
+	<dependencies>
+	  <!-- Barebone Tests -->
+	  <dependency>
+      <groupId>com.example.demo.pet-corp</groupId>
+      <artifactId>ui-test-shared</artifactId>
+      <version>${project.version}</version>
+      <type>test-jar</type>
+      <scope>test</scope>
+    </dependency>
+	  
+		<!-- Embedded services -->
+		<dependency>
+			<groupId>com.example.demo.pet-corp</groupId>
+			<artifactId>petstore-core</artifactId>
+			<version>${petstore-core.version}</version>
+			<scope>test</scope>
+		</dependency>
+		
+		<dependency>
+      <groupId>com.example.demo.pet-corp</groupId>
+      <artifactId>petoffice-core</artifactId>
+      <version>${petoffice-core.version}</version>
+      <scope>test</scope>
+    </dependency>
+    
+    <dependency>
+      <groupId>com.example.demo.pet-corp</groupId>
+      <artifactId>adapter-core</artifactId>
+      <version>${adapter-core.version}</version>
+      <scope>test</scope>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-stream-binder-kafka</artifactId>
+      <scope>test</scope>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-jdbc</artifactId>
+      <scope>test</scope>
+    </dependency>
+    
+		<!-- Security dependencies -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>com.example.rest.common.security</groupId> -->
+<!-- 			<artifactId>common</artifactId> -->
+<!-- 			<version>${common-security.version}</version> -->
+<!-- 		</dependency> -->
+		
+		<!-- Springboot Test dependencies -->
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Selenium Dependency -->
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-firefox-driver</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-server</artifactId>
+			<version>${selenium.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.kafka</groupId>
+			<artifactId>spring-kafka-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
+		</dependency>
+	</dependencies>
+
+  <profiles>
+    <profile>
+      <id>release</id>
+      
+      <build>
+		    <plugins>
+		      <!-- Test preparations. Order is important -->
+		      <!-- 1. Export UI. Uncomment the developerConnection and set to valid url -->
+		      <plugin>
+		        <groupId>org.apache.maven.plugins</groupId>
+		        <artifactId>maven-scm-plugin</artifactId>
+		        <version>${scm-plugin.version}</version>
+		        <executions>
+		          <execution>
+		            <id>checkout-webapp</id>
+		            <phase>generate-sources</phase>
+		            <configuration>
+		              <scmVersion>demo</scmVersion>
+		              <scmVersionType>branch</scmVersionType>
+		              <connectionType>developerConnection</connectionType>
+		              <workingDirectory>target/checkout</workingDirectory>
+		              <excludes>
+		                .bowerrc,
+		                .gitignore,
+		                bower.json,
+		                demo_notes.txt,
+		                gulpfile.js,
+		                package-lock.json,
+		                package.json,
+		                README.md,
+		                server.js
+		              </excludes>
+		            </configuration>
+		            <goals>
+		              <goal>checkout</goal>
+		            </goals>
+		          </execution>
+		        </executions>
+		      </plugin>
+		
+		      <!-- 2. Copy public folder -->
+		      <plugin>
+		        <artifactId>maven-resources-plugin</artifactId>
+		
+		        <executions>
+		          <execution>
+		            <id>copy-resources</id>
+		            <phase>generate-resources</phase>
+		            <configuration>
+		              <outputDirectory>target/test-classes/public</outputDirectory>
+		              <resources>
+		                <resource>
+		                  <directory>${project.build.directory}/checkout/public</directory>
+		                  <filtering>false</filtering>
+		                </resource>
+		              </resources>
+		            </configuration>
+		            <goals>
+		              <goal>copy-resources</goal>
+		            </goals>
+		          </execution>
+		        </executions>
+		      </plugin>
+		    </plugins>
+      </build>
+    </profile>
+  </profiles>
+  
+  <build>
+    <plugins>
+          <!-- Copy public folder from PetStoreUi project -->
+          <plugin>
+            <artifactId>maven-resources-plugin</artifactId>
+    
+            <executions>
+              <execution>
+                <id>copy-resources</id>
+                <phase>generate-resources</phase>
+                <configuration>
+                  <outputDirectory>target/test-classes/public</outputDirectory>
+                  <resources>
+                    <resource>
+                      <directory>../PetStoreUi/public</directory>
+                      <filtering>false</filtering>
+                    </resource>
+                  </resources>
+                </configuration>
+                <goals>
+                  <goal>copy-resources</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+  </build>
+</project>

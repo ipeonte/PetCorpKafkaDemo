@@ -1,0 +1,5 @@
+{"properties": [{
+  "name": "breed-info-url",
+  "type": "java.lang.String",
+  "description": "Base URL for BreedInfo site"
+}]}

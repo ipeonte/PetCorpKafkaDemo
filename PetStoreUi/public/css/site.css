@@ -1,0 +1,33 @@
+.all-pets {
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.pets tr th.pet-id {
+  width: 10%;
+}
+
+table.pets tr th.pet-name {
+  width: 50%
+}
+
+table.pets tr th.pet-status {
+  width: 25%
+}
+
+table.pets tr th.pet-action {
+  width: 15%
+}
+
+form.new-pet {
+  padding: 15px;
+}
+
+button.float-right {
+  float: right;
+}
+
+form.pet-search {
+  padding-bottom: 10px;
+}
