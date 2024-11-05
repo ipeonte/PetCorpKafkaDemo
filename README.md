@@ -10,4 +10,3 @@ cd UiTests/PetStoreUiTestShared
 mvn clean install
 cd UiTests/PetStoreUiTest
 mvn test
-
