@@ -6,7 +6,7 @@ and multiple API services and adapters.
 mvn clean install -P release
 
 ### Run UI test with all services, adapters, embedded HSQLDB database, Embedded Kafka
-cd UiTests/PetStoreUiTestShared
-mvn clean install
-cd UiTests/PetStoreUiTest
+cd UiTests/PetStoreUiTestShared 
+mvn clean install 
+cd UiTests/PetStoreUiTest 
 mvn test
