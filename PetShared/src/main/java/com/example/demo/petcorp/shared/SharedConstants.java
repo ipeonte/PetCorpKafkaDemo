@@ -2,9 +2,8 @@ package com.example.demo.petcorp.shared;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
@@ -29,6 +28,6 @@ public class SharedConstants {
     MAPPER = new ObjectMapper();
     MAPPER.registerModule(new JavaTimeModule());
     MAPPER.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-    MAPPER.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
+    MAPPER.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
   }
 }

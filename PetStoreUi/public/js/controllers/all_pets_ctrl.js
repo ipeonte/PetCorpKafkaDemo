@@ -26,8 +26,8 @@ angular.module('BasicPetServices', ['ngResource'])
     }])
   .factory('mgr_pets', ['$resource',
     function($resource) {
-      return $resource('api/v1/mgr/pet/:petId/:clientId', {petId:'@id', clientId: '@clientId'}, {
-        adopt: {method: 'DELETE', params: {petId:'@id', clientId: '@clientId'}}
+      return $resource('api/v1/mgr/pet/:petId/:clientId', {petId:'@petId', clientId: '@clientId'}, {
+        adopt: {method: 'POST', params: {petId:'@petId', clientId: '@clientId'}}
       });
     }]);
 

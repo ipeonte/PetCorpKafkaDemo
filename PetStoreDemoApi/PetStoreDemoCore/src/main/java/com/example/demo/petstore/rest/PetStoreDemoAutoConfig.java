@@ -9,6 +9,6 @@ import org.springframework.context.annotation.ComponentScan;
  */
 
 @ComponentScan("com.example.demo.petstore.rest")
-public class AutoConfiguration {
+public class PetStoreDemoAutoConfig {
 
 }

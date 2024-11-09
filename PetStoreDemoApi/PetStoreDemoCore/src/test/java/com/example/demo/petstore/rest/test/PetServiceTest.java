@@ -1,25 +1,21 @@
-package com.example.demo.petstore.rest.service.impl;
+package com.example.demo.petstore.rest.test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-
 import java.util.List;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.TestPropertySource;
-
-import com.example.demo.petstore.shared.dto.PetSex;
 import com.example.demo.petstore.rest.error.PetStoreExeption;
 import com.example.demo.petstore.rest.service.PetService;
-import com.example.demo.petstore.shared.dto.PetInfoDto;
 import com.example.demo.petstore.shared.dto.PetBaseDto;
+import com.example.demo.petstore.shared.dto.PetInfoDto;
+import com.example.demo.petstore.shared.dto.PetSex;
 
+@SpringBootTest
 @TestPropertySource("classpath:/test.properties")
-@SpringBootTest(webEnvironment = WebEnvironment.NONE)
 public class PetServiceTest {
 
   @Autowired
@@ -56,8 +52,7 @@ public class PetServiceTest {
 
   @Test
   public void testAddDeletePet() throws PetStoreExeption {
-    PetInfoDto pet =
-        petService.addPet(new PetInfoDto("Jira", PetSex.F, VACCINATED_FLAG));
+    PetInfoDto pet = petService.addPet(new PetInfoDto("Jira", PetSex.F, VACCINATED_FLAG));
     Long id = pet.getId();
     checkPet(petService.getPetById(id), "Jira", PetSex.F);
 
@@ -77,7 +72,7 @@ public class PetServiceTest {
     assertEquals(name, pet.getName());
     assertEquals(status, pet.getSex());
   }
-  
+
   private void checkPetNotFound(long id) throws PetStoreExeption {
     PetBaseDto pet = petService.getVaccinatedPetById(id);
     assertNull(pet, "Pet is not empty.");

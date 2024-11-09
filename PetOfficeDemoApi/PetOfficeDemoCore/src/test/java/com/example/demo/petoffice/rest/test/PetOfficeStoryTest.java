@@ -1,4 +1,4 @@
-package com.example.demo.petoffice.rest;
+package com.example.demo.petoffice.rest.test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;

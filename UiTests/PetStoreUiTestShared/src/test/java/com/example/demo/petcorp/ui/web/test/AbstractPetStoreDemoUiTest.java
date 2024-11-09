@@ -3,13 +3,11 @@ package com.example.demo.petcorp.ui.web.test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.io.File;
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Alert;
@@ -22,7 +20,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.Select;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import com.example.demo.petcorp.ui.web.UiTestConstants;
 import com.example.demo.petcorp.ui.web.test.model.Client;
 
@@ -74,7 +71,7 @@ public abstract class AbstractPetStoreDemoUiTest {
     System.setProperty("webdriver.chrome.silentOutput", "true");
 
     driver = new ChromeDriver(options);
-    driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
+    driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(1));
 
     // Set size manually
     driver.manage().window().setSize(new Dimension(1920, 1080));
@@ -92,11 +89,8 @@ public abstract class AbstractPetStoreDemoUiTest {
   /**
    * Test Case description:
    * 
-   * 1. Login as user
-   * 2. Check that 3 records visible
-   * 3. Enter Pet Id -> Click search
-   * 4. Check that only 1 record is visible
-   * 5. Click Reset and repeat step #2
+   * 1. Login as user 2. Check that 3 records visible 3. Enter Pet Id -> Click search 4. Check that
+   * only 1 record is visible 5. Click Reset and repeat step #2
    */
   @Test
   public void testUserSearch() {
@@ -115,12 +109,8 @@ public abstract class AbstractPetStoreDemoUiTest {
   /**
    * Test Case description:
    * 
-   * 1. Login as pet handler
-   * 2. Check that 3 records visible
-   * 3. Add new pet
-   * 4. Check that 4 records visible
-   * 5. Do pet search for new pet
-   * 6. Remove new pet from DB
+   * 1. Login as pet handler 2. Check that 3 records visible 3. Add new pet 4. Check that 4 records
+   * visible 5. Do pet search for new pet 6. Remove new pet from DB
    */
   @Test
   public void testAddPet() {
@@ -137,11 +127,10 @@ public abstract class AbstractPetStoreDemoUiTest {
   /**
    * Test Case description:
    * 
-   * 1. Login as manager
-   * 2. Check that 3 records visible
-   * 3. Execute testAddPet()
-   * 4. Delete new pet, search and check that no records returned
-   * @throws Exception 
+   * 1. Login as manager 2. Check that 3 records visible 3. Execute testAddPet() 4. Delete new pet,
+   * search and check that no records returned
+   * 
+   * @throws Exception
    */
   @Test
   public void testAdoptPet() throws Exception {
@@ -169,8 +158,8 @@ public abstract class AbstractPetStoreDemoUiTest {
     new Select(client).selectByVisibleText(testClient.getName());
 
     adoptPetBtn.click();
-    assertEquals("Please confirm adoption of 1 pet by " + testClient.getName(),
-        acceptAlert(), "Alert text for accept adopted pet doesn't match.");
+    assertEquals("Please confirm adoption of 1 pet by " + testClient.getName(), acceptAlert(),
+        "Alert text for accept adopted pet doesn't match.");
     TestUtils.sleep();
 
     // Check pet disappear from list
@@ -185,8 +174,7 @@ public abstract class AbstractPetStoreDemoUiTest {
   }
 
   private int addVaccinatedTestPet() {
-    return addPet(UiTestConstants.TEST_PET_NAME, UiTestConstants.TEST_PET_SEX,
-        true);
+    return addPet(UiTestConstants.TEST_PET_NAME, UiTestConstants.TEST_PET_SEX, true);
   }
 
   private int addPet(String petName, String petSex, boolean isVaccinated) {
@@ -199,8 +187,7 @@ public abstract class AbstractPetStoreDemoUiTest {
 
     // Check submit button is disabled
     WebElement submit = newPetForm.findElement(By.className("btn-primary"));
-    assertFalse(submit.isEnabled(),
-        "Submit button should not be enabled on new 'Add Pet' form.");
+    assertFalse(submit.isEnabled(), "Submit button should not be enabled on new 'Add Pet' form.");
 
     List<WebElement> inputs = newPetForm.findElements(By.tagName("input"));
     inputs.get(0).clear();
@@ -273,20 +260,17 @@ public abstract class AbstractPetStoreDemoUiTest {
     int mask = 0;
     int shift = 1;
     for (int i = textMask.length(); i > 0; i--)
-      mask +=
-          textMask.charAt(i - 1) == '1' ? shift << textMask.length() - i : 0;
+      mask += textMask.charAt(i - 1) == '1' ? shift << textMask.length() - i : 0;
 
     // Check all pets visible
-    checkPetRecordsVisible(mask == 0 ? vaccPetsNum : allPetsNum,
-        mask == 0 ? 1 : 2);
+    checkPetRecordsVisible(mask == 0 ? vaccPetsNum : allPetsNum, mask == 0 ? 1 : 2);
 
     // Add pet only visible for pet handlers and manager
     try {
       addPetBtn = petTable.findElement(By.className("btn-primary"));
     } catch (NoSuchElementException e) {
       // Expected only for user
-      assertTrue(mask == 0,
-          "Button 'Add Pet' not found for user '" + userRole + "'");
+      assertTrue(mask == 0, "Button 'Add Pet' not found for user '" + userRole + "'");
     }
 
     // Adopt pet only visible for manager
@@ -298,8 +282,7 @@ public abstract class AbstractPetStoreDemoUiTest {
           "Adopt Pet button is not disabled.");
     } catch (NoSuchElementException e) {
       // Expected only for user
-      assertTrue(mask != 3,
-          "Button 'Adopt Pet' not found for user '" + userRole + "'");
+      assertTrue(mask != 3, "Button 'Adopt Pet' not found for user '" + userRole + "'");
     }
   }
 
@@ -324,12 +307,10 @@ public abstract class AbstractPetStoreDemoUiTest {
     List<WebElement> list = listPets(petTable);
 
     // Expecting 1 element plus 2 extra rows
-    assertEquals(1 + extra, list.size(),
-        "Number of pets records after search doesn't match.");
+    assertEquals(1 + extra, list.size(), "Number of pets records after search doesn't match.");
 
     // Expecting pet-id in last element
-    assertEquals(String.valueOf(id),
-        list.get(1).findElement(By.className("pet-id")).getText(),
+    assertEquals(String.valueOf(id), list.get(1).findElement(By.className("pet-id")).getText(),
         "Test pet id doesn't match.");
     return list;
   }

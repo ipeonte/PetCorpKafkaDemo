@@ -4,18 +4,17 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<packaging>jar</packaging>
-	<artifactId>petstore-core</artifactId>
-
-	<name>PetStoreDemoCoreLibrary</name>
-	<description>Demo project for Pet Store Demo REST </description>
-
 	<parent>
 		<groupId>com.example.demo.pet-corp</groupId>
 		<artifactId>parent-petstore</artifactId>
 		<relativePath>../</relativePath>
 		<version>1.2.3</version>
 	</parent>
+
+	<packaging>jar</packaging>
+	<artifactId>petstore-core</artifactId>
+	<name>PetStoreDemoCore</name>
+	<description>Demo project for Pet Store Demo REST </description>
 
 	<dependencies>
 		<dependency>
@@ -35,15 +34,15 @@
 
 		<dependency>
 			<groupId>com.example.rest.common.security</groupId>
-			<artifactId>security-services</artifactId>
+			<artifactId>security-session-common</artifactId>
 			<version>${common-security.version}</version>
 		</dependency>
 
-    <dependency>
-      <groupId>com.example.demo.pet-corp</groupId>
-      <artifactId>pet-shared</artifactId>
-      <version>${pet-shared.version}</version>
-    </dependency>
+	    <dependency>
+	      <groupId>com.example.demo.pet-corp</groupId>
+	      <artifactId>pet-shared</artifactId>
+	      <version>${pet-shared.version}</version>
+	    </dependency>
     
 		<dependency>
 			<groupId>com.example.demo.pet-corp</groupId>
@@ -64,10 +63,8 @@
 		
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-stream</artifactId>
+			<artifactId>spring-cloud-stream-test-binder</artifactId>
 			<scope>test</scope>
-			<type>test-jar</type>
-			<classifier>test-binder</classifier>
 		</dependency>
 	</dependencies>
 
@@ -76,7 +73,7 @@
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.6</version>
+				<version>${jacoco-plugin.version}</version>
 				<executions>
 					<execution>
 						<id>default-prepare-agent</id>

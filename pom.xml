@@ -6,13 +6,13 @@
 	<groupId>com.example.demo.pet-corp</groupId>
 	<artifactId>parent</artifactId>
 	<packaging>pom</packaging>
-	<version>1.0.0</version>
+	<version>2.0.0</version>
 	<name>PetStoreDemoParent</name>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.4.4</version>
+		<version>3.3.5</version>
 		<relativePath />
 	</parent>
 
@@ -24,15 +24,13 @@
 	</licenses>
 
 	<properties>
-		<java.version>1.8</java.version>
-		<spring-cloud.version>2020.0.2</spring-cloud.version>
-		<maven.compiler.source>${java.version}</maven.compiler.source>
-		<maven.compiler.target>${java.version}</maven.compiler.target>
+		<spring-cloud.version>2023.0.3</spring-cloud.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<pet-shared.version>1.0.0</pet-shared.version>
-		<common-security.version>1.0.0</common-security.version>
-		<petstore-shared.version>1.0.0</petstore-shared.version>
+		<pet-shared.version>2.0.0</pet-shared.version>
+		<common-security.version>2.0.0</common-security.version>
+		<petstore-shared.version>2.0.0</petstore-shared.version>
+		<jacoco-plugin.version>0.8.12</jacoco-plugin.version>
 	</properties>
 
 	<dependencies>
@@ -66,13 +64,13 @@
     </dependencies>
   </dependencyManagement>
   
-	<profiles>
-		<profile>
-			<id>release</id>
-			<properties>
-				<skipTests>true</skipTests>
-			</properties>
-		</profile>
-	</profiles>
+  <profiles>
+	<profile>
+	  <id>release</id>
+		<properties>
+			<skipTests>true</skipTests>
+		</properties>
+	</profile>
+  </profiles>
 
 </project>

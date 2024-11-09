@@ -5,7 +5,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.session.web.http.CookieHttpSessionIdResolver;
 import org.springframework.session.web.http.DefaultCookieSerializer;
-
 import com.example.rest.common.security.core.Constants;
 
 /**
@@ -16,10 +15,10 @@ import com.example.rest.common.security.core.Constants;
  */
 @Configuration
 @ComponentScan("com.example.rest.common.security")
-public class AutoConfiguration {
+public class SecurityCommonAutoConfig {
 
   @Bean
-  public CookieHttpSessionIdResolver cookieHttpSessionIdResolver() {
+  CookieHttpSessionIdResolver cookieHttpSessionIdResolver() {
     CookieHttpSessionIdResolver resolver = new CookieHttpSessionIdResolver();
     DefaultCookieSerializer serializer = new DefaultCookieSerializer();
     serializer.setCookieName(Constants.COOKIE_SESSION_NAME);

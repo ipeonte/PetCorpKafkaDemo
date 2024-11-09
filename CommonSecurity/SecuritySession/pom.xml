@@ -3,11 +3,22 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>security-services</artifactId>
+	<artifactId>security-session-common</artifactId>
 	<groupId>com.example.rest.common.security</groupId>
-	<version>1.0.0</version>
+	<version>2.0.0</version>
 	
 	<packaging>jar</packaging>
-	<name>SecurityService</name>
-	<description>Security Session Service</description>
+	<name>SecuritySessionCommon</name>
+	<description>Common Security Session Models</description>
+
+	<licenses>
+		<license>
+			<name>GNU Lesser General Public License v3.0</name>
+			<url>http://www.gnu.org/licenses/lgpl-3.0.txt</url>
+		</license>
+	</licenses>
+		
+	<properties>
+    	<maven.compiler.release>17</maven.compiler.release>
+  	</properties>
 </project>

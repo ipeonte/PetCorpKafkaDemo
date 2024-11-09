@@ -7,6 +7,6 @@ import org.springframework.context.annotation.ComponentScan;
  */
 
 @ComponentScan("com.example.demo.petoffice.rest")
-public class AutoConfiguration {
+public class PetOfficeDemoAutoConfig {
 
 }

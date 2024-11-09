@@ -5,22 +5,27 @@
 	<parent>
 		<groupId>com.example.rest.common.security</groupId>
 		<artifactId>parent</artifactId>
-		<version>1.0.0</version>
+		<version>2.0.0</version>
 		<relativePath>../CommonSecurity</relativePath>
 	</parent>
 
 	<groupId>com.example.demo.pet-corp</groupId>
 	<artifactId>auth-server</artifactId>
-	<version>1.1.0</version>
-	
 	<name>PetStoreDemoAuthServer</name>
 	<description>PetStore Demo Authentication Server for Common Security Layer based on Spring Session</description>
-	
+
+	<licenses>
+		<license>
+			<name>GNU Lesser General Public License v3.0</name>
+			<url>http://www.gnu.org/licenses/lgpl-3.0.txt</url>
+		</license>
+	</licenses>
+		
 	<dependencies>
 		<dependency>
 			<groupId>com.example.rest.common.security</groupId>
 			<artifactId>security-core</artifactId>
-			<version>1.0.0</version>
+			<version>${common-security.version}</version>
 		</dependency>
 	</dependencies>
 

@@ -9,6 +9,13 @@
 	<name>PetStoreDemoAdapterCore</name>
 	<description>Demo project for Pet Store Demo Adapter</description>
 
+	<licenses>
+		<license>
+			<name>GNU Lesser General Public License v3.0</name>
+			<url>http://www.gnu.org/licenses/lgpl-3.0.txt</url>
+		</license>
+	</licenses>
+	
 	<parent>
 		<groupId>com.example.demo.pet-corp</groupId>
 		<artifactId>parent-adapter</artifactId>
@@ -30,10 +37,8 @@
 
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-stream</artifactId>
+			<artifactId>spring-cloud-stream-test-binder</artifactId>
 			<scope>test</scope>
-			<type>test-jar</type>
-			<classifier>test-binder</classifier>
 		</dependency>
 
 		<dependency>
@@ -42,23 +47,23 @@
 		</dependency>
 		
 		<dependency>
-      <groupId>org.springframework.cloud</groupId>
-      <artifactId>spring-cloud-stream-binder-kafka</artifactId>
-      <scope>test</scope>
-    </dependency>
-    
+	      <groupId>org.springframework.cloud</groupId>
+	      <artifactId>spring-cloud-stream-binder-kafka</artifactId>
+	      <scope>test</scope>
+	    </dependency>
+	    
 		<dependency>
-      <groupId>org.springframework.kafka</groupId>
-      <artifactId>spring-kafka-test</artifactId>
-      <scope>test</scope>
-    </dependency>
-    
-    <dependency>
-      <groupId>com.example.demo.pet-corp</groupId>
-      <artifactId>pet-shared</artifactId>
-      <version>${pet-shared.version}</version>
-      <type>test-jar</type>
-      <scope>test</scope>
-    </dependency>
+	      <groupId>org.springframework.kafka</groupId>
+	      <artifactId>spring-kafka-test</artifactId>
+	      <scope>test</scope>
+	    </dependency>
+	    
+	    <dependency>
+	      <groupId>com.example.demo.pet-corp</groupId>
+	      <artifactId>pet-shared</artifactId>
+	      <version>${pet-shared.version}</version>
+	      <type>test-jar</type>
+	      <scope>test</scope>
+	    </dependency>
 	</dependencies>
 </project>

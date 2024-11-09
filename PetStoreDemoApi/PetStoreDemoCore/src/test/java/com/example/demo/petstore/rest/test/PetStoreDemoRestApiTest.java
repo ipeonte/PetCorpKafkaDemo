@@ -1,4 +1,4 @@
-package com.example.demo.petstore.rest;
+package com.example.demo.petstore.rest.test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -19,6 +19,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
 
 import com.example.demo.petcorp.shared.SharedConstants;
+import com.example.demo.petstore.rest.GenericTestUtils;
 import com.example.demo.petstore.rest.common.Constants;
 import com.example.demo.petstore.shared.dto.PetBaseDto;
 
@@ -104,19 +105,19 @@ public class PetStoreDemoRestApiTest {
   }
 
   @Test
-  public void testDeleteBad() {
+  public void testAdoptBad() {
     ResponseEntity<String> response =
-        _rest.exchange(Constants.MGR_URL + "/pet/100/0", HttpMethod.DELETE,
+        _rest.exchange(Constants.MGR_URL + "/pet/100/0", HttpMethod.POST,
             null, String.class);
     assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 
-    response = _rest.exchange(Constants.MGR_URL + "/pet/a/0", HttpMethod.DELETE,
+    response = _rest.exchange(Constants.MGR_URL + "/pet/a/0", HttpMethod.POST,
         null, String.class);
     assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
   }
 
   @Test
-  public void testDeletePetGood() {
+  public void testAdoptPetGood() {
     int id = 99;
     // Insert new record
     _jdbc
@@ -126,7 +127,7 @@ public class PetStoreDemoRestApiTest {
     // Delete that entry
     ResponseEntity<String> response =
         _rest.exchange(Constants.MGR_URL + "/pet/" + id + "/0",
-            HttpMethod.DELETE, null, String.class);
+            HttpMethod.POST, null, String.class);
     assertEquals(HttpStatus.OK, response.getStatusCode());
 
     // Check entry doesn't exists in database any more

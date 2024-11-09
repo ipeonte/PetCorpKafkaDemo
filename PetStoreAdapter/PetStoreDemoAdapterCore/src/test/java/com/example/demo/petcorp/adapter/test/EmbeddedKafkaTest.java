@@ -1,4 +1,4 @@
-package com.example.demo.petcorp.adapter;
+package com.example.demo.petcorp.adapter.test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -15,7 +15,7 @@ import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.context.annotation.Import;
 import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.test.context.TestPropertySource;
-
+import com.example.demo.petcorp.adapter.TestKafkaConfig;
 import com.example.demo.petcorp.shared.SharedConstants;
 import com.example.demo.petcorp.shared.TestUtils;
 import com.example.demo.petcorp.shared.dto.PetAdoptionDto;

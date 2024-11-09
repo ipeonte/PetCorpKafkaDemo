@@ -1,11 +1,11 @@
 package com.example.demo.petstore.rest.jpa.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 /**
  * Pet JPA Model
@@ -35,11 +35,10 @@ public class Pet {
   private String adopted = "N";
 
   /**
-   * Default constructor. Required by JPA to work properly since one more 
-   * custom constructor defined.
+   * Default constructor. Required by JPA to work properly since one more custom constructor
+   * defined.
    */
-  public Pet() {
-  }
+  public Pet() {}
 
   public Pet(String name, String sex, String vaccinated) {
     this.name = name;

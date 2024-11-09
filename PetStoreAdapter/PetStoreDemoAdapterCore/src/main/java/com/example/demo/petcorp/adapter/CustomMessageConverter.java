@@ -1,15 +1,13 @@
 package com.example.demo.petcorp.adapter;
 
 import java.io.IOException;
-
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.converter.AbstractMessageConverter;
 import org.springframework.util.MimeType;
-
 import com.example.demo.petcorp.shared.dto.PetAdoptionDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
@@ -26,7 +24,7 @@ class CustomMessageConverter extends AbstractMessageConverter {
     super(new MimeType("application", "json"));
     mapper.registerModule(new JavaTimeModule());
     mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-    mapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
+    mapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
   }
 
   @Override
@@ -39,8 +37,7 @@ class CustomMessageConverter extends AbstractMessageConverter {
       Object conversionHint) {
 
     try {
-      return mapper.readValue((byte[]) message.getPayload(),
-          PetAdoptionDto.class);
+      return mapper.readValue((byte[]) message.getPayload(), PetAdoptionDto.class);
     } catch (IOException e) {
       System.err.println(e.getMessage());
     }

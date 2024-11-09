@@ -1,11 +1,9 @@
 package com.example.demo.petoffice.rest.messaging;
 
 import java.util.function.Consumer;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
 import com.example.demo.petcorp.shared.SharedConstants;
 import com.example.demo.petcorp.shared.dto.PetAdoptionDto;
 import com.example.demo.petoffice.rest.error.PetOfficeExeption;
@@ -23,17 +21,15 @@ public class MessagingConfig {
   ClientService clientService;
 
   @Bean
-  public Consumer<String> consumeAdoptionEvent() {
+  Consumer<String> consumeAdoptionEvent() {
     return adoptionInfo -> {
       SharedConstants.LOG.info("Received Adoption Message - " + adoptionInfo);
 
       PetAdoptionDto petAdoption;
       try {
-        petAdoption = SharedConstants.MAPPER.readValue(adoptionInfo,
-            PetAdoptionDto.class);
+        petAdoption = SharedConstants.MAPPER.readValue(adoptionInfo, PetAdoptionDto.class);
       } catch (JsonProcessingException e) {
-        SharedConstants.LOG.error(
-            "Error convertion '{}' into PetAdoptionDto - {}", adoptionInfo,
+        SharedConstants.LOG.error("Error convertion '{}' into PetAdoptionDto - {}", adoptionInfo,
             e.getMessage());
         return;
       }

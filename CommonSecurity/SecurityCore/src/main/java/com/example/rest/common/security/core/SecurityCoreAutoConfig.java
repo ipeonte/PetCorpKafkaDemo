@@ -11,6 +11,6 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @ComponentScan("com.example.rest.common.security.core")
-public class AutoConfiguration {
+public class SecurityCoreAutoConfig {
 	
 }

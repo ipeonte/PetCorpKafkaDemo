@@ -2,7 +2,7 @@ package com.example.demo.petstore.rest.controller;
 
 import java.util.List;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -45,7 +45,7 @@ public class PetController {
   }
 
   @GetMapping("/pet/{petId}")
-  public PetBaseDto findPetById(@PathVariable("petId") Long petId)
+  public PetBaseDto findPetById(@PathVariable Long petId)
       throws PetStoreExeption {
     PetBaseDto res = petService.getVaccinatedPetById(petId);
 
@@ -62,7 +62,7 @@ public class PetController {
   }
 
   @GetMapping(Constants.ADMIN_BASE + "/pet/{petId}")
-  public PetInfoDto findVaccinatedPetById(@PathVariable("petId") Long petId)
+  public PetInfoDto findVaccinatedPetById(@PathVariable Long petId)
       throws PetStoreExeption {
     return petService.getPetById(petId);
   }
@@ -74,7 +74,7 @@ public class PetController {
   }
 
   @PutMapping(Constants.ADMIN_BASE + "/pet/{petId}/vaccinated")
-  public PetInfoDto addPet(@PathVariable("petId") Long petId,
+  public PetInfoDto addPet(@PathVariable Long petId,
       @Valid @RequestBody Boolean isVaccinated) throws PetStoreExeption {
     return petService.setVaccinatedStatus(petId, isVaccinated);
   }
@@ -83,9 +83,9 @@ public class PetController {
   /**        Manager Section        **/
   /*********************************/
 
-  @DeleteMapping(Constants.MGR_BASE + "/pet/{petId}/{clientId}")
+  @PostMapping(Constants.MGR_BASE + "/pet/{petId}/{clientId}")
   public void adoptPet(@PathVariable Long petId,
-      @PathVariable("clientId") Long clientId) throws PetStoreExeption {
+      @PathVariable Long clientId) throws PetStoreExeption {
     petService.adoptPet(petId, clientId);
   }
 }

@@ -1,4 +1,4 @@
-package com.example.demo.petcorp.adapter;
+package com.example.demo.petcorp.adapter.test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;

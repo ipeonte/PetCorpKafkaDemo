@@ -1,15 +1,14 @@
 package com.example.rest.common.security.web;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.example.rest.common.security.TestConstants;
 import com.example.rest.common.security.WebSecurityConfig;
 import com.example.rest.common.security.core.Constants;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * Test Controller for Common Security Layer test
@@ -23,13 +22,11 @@ public class TestController {
 
   public static final String ALL_RESULT = "ALL";
 
-  @RequestMapping(TestConstants.TEST_URL)
-  public String userInfo(Authentication authentication,
-      HttpServletRequest req) {
+  @GetMapping(TestConstants.TEST_URL)
+  public String userInfo(Authentication authentication, HttpServletRequest req) {
     // Insert user name was used from login from standard http session
-    String message = Constants.USER_NAME_KEY + ":" +
-        req.getSession(false).getAttribute(Constants.USER_NAME_KEY).toString() +
-        "|";
+    String message = Constants.USER_NAME_KEY + ":"
+        + req.getSession(false).getAttribute(Constants.USER_NAME_KEY).toString() + "|";
 
     if (authentication != null) {
       // Insert user name was used from login from authentication object
@@ -44,7 +41,7 @@ public class TestController {
     return message + "|sessionId:" + req.getSession(false).getId();
   }
 
-  @RequestMapping(WebSecurityConfig.ADMIN_URL + TestConstants.TEST_URL)
+  @GetMapping(WebSecurityConfig.ADMIN_URL + TestConstants.TEST_URL)
   public String adminTest() {
     return ALL_RESULT;
   }

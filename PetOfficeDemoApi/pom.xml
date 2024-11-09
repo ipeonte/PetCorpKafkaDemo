@@ -3,19 +3,18 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-	
-	<artifactId>parent-petoffice</artifactId>
-	<groupId>com.example.demo.pet-corp</groupId>
-	<packaging>pom</packaging>
-	<version>4.5.6</version>
-	<name>PetOfficeDemoParent</name>
 
 	<parent>
 		<groupId>com.example.demo.pet-corp</groupId>
 		<artifactId>parent</artifactId>
-		<version>1.0.0</version>
+		<version>2.0.0</version>
 		<relativePath>../</relativePath>
 	</parent>
+	
+	<artifactId>parent-petoffice</artifactId>
+	<packaging>pom</packaging>
+	<version>4.5.6</version>
+	<name>PetOfficeDemoParent</name>
 
 	<licenses>
 		<license>
@@ -23,10 +22,6 @@
 			<url>http://www.gnu.org/licenses/lgpl-3.0.txt</url>
 		</license>
 	</licenses>
-
-	<properties>
-		<common-security.version>1.0.0</common-security.version>
-	</properties>
 
 	<dependencies>
 		<dependency>

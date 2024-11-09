@@ -8,8 +8,7 @@ import org.springframework.session.web.http.CookieSerializer;
 import org.springframework.session.web.http.DefaultCookieSerializer;
 
 /**
- * Configuration class for RedisHttpSession Define special namespace to store
- * session data
+ * Configuration class for RedisHttpSession Define special namespace to store session data
  *
  * @author Igor Peonte <igor.144@gmail.com>
  *
@@ -25,7 +24,7 @@ public class Config {
   private String cookiePath;
 
   @Bean
-  public CookieSerializer cookieSerializer() {
+  CookieSerializer cookieSerializer() {
     DefaultCookieSerializer s = new DefaultCookieSerializer();
     s.setCookiePath(cookiePath);
     s.setUseBase64Encoding(false);
