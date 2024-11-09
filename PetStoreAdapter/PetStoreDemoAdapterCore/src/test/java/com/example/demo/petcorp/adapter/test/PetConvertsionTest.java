@@ -45,18 +45,15 @@ public class PetConvertsionTest {
     PetAdoptionDto in = new PetAdoptionDto(petId, clientId);
     assertNull(in.getRegistered(), "Registered field not empty");
 
-    input.send(new GenericMessage<byte[]>(
-        SharedConstants.MAPPER.writeValueAsBytes(in)));
+    input.send(new GenericMessage<byte[]>(SharedConstants.MAPPER.writeValueAsBytes(in)));
 
     byte[] data = output.receive().getPayload();
-    PetAdoptionDto out =
-        SharedConstants.MAPPER.readValue(data, PetAdoptionDto.class);
+    PetAdoptionDto out = SharedConstants.MAPPER.readValue(data, PetAdoptionDto.class);
 
     assertEquals(petId, out.getPetId(), "Pet Id doesn't match");
     assertEquals(clientId, out.getClientId(), "Client Id doesn't match");
     assertNotNull(out.getRegistered());
 
-    TestUtils.checkDateStampDiff(
-        out.getRegistered().toEpochSecond(ZoneOffset.UTC), 1);
+    TestUtils.checkDateStampDiff(out.getRegistered().toEpochSecond(ZoneOffset.UTC), 1);
   }
 }

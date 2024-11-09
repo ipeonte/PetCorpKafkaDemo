@@ -14,13 +14,14 @@ public class TestUtils {
 
   /**
    * Check if DateTime Stamp is around "now"
+   * 
    * @param seconds the Epoc Seconds
    * @param maxDiff the Max Differentce between given Epoc seconds and "now"
    */
   public static void checkDateStampDiff(long seconds, long maxDiff) {
     LocalDateTime dts = LocalDateTime.now(ZoneOffset.UTC);
     long diff = dts.toEpochSecond(ZoneOffset.UTC) - seconds;
-    assertTrue(diff <= maxDiff, "Difference between seconds  " + diff +
-        " is greater than " + maxDiff + " second");
+    assertTrue(diff <= maxDiff,
+        "Difference between seconds  " + diff + " is greater than " + maxDiff + " second");
   }
 }

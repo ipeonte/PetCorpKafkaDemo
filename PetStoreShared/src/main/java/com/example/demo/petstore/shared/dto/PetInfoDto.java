@@ -11,8 +11,7 @@ public class PetInfoDto extends PetBaseDto {
   /**
    * Default constructor
    */
-  public PetInfoDto() {
-  }
+  public PetInfoDto() {}
 
   public PetInfoDto(Long id, String name, PetSex sex, String vaccinated) {
     super(id, name, sex);

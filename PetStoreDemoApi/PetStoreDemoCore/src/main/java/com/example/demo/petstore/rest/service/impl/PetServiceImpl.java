@@ -47,10 +47,8 @@ public class PetServiceImpl implements PetService {
       throw new PetStoreExeption(PetStoreErrors.ERROR_FIND_VACCINATED_PET, e);
     }
 
-    return pets.stream()
-        .map(pet -> new PetBaseDto(pet.getId(), pet.getName(),
-            PetSex.valueOf(pet.getSex().toUpperCase())))
-        .collect(Collectors.toList());
+    return pets.stream().map(pet -> new PetBaseDto(pet.getId(), pet.getName(),
+        PetSex.valueOf(pet.getSex().toUpperCase()))).collect(Collectors.toList());
   }
 
   @Override
@@ -60,8 +58,7 @@ public class PetServiceImpl implements PetService {
     try {
       petRepo.findAllByAdoptedOrderByNameAsc("N")
           .forEach(pet -> pets.add(new PetInfoDto(pet.getId(), pet.getName(),
-              PetSex.valueOf(pet.getSex().toUpperCase()),
-              pet.getVaccinated())));
+              PetSex.valueOf(pet.getSex().toUpperCase()), pet.getVaccinated())));
     } catch (Exception e) {
       throw new PetStoreExeption(PetStoreErrors.ERROR_GET_ALL_PETS, e);
     }
@@ -79,14 +76,13 @@ public class PetServiceImpl implements PetService {
     Pet record;
 
     try {
-      record = petRepo.save(
-          new Pet(pet.getName(), pet.getSex().name(), pet.getVaccinated()));
+      record = petRepo.save(new Pet(pet.getName(), pet.getSex().name(), pet.getVaccinated()));
     } catch (Exception e) {
       throw new PetStoreExeption(PetStoreErrors.ERROR_ADD_PET, e);
     }
 
-    return new PetInfoDto(record.getId(), record.getName(),
-        PetSex.valueOf(record.getSex()), record.getVaccinated());
+    return new PetInfoDto(record.getId(), record.getName(), PetSex.valueOf(record.getSex()),
+        record.getVaccinated());
   }
 
   @Override
@@ -96,17 +92,15 @@ public class PetServiceImpl implements PetService {
     try {
       pet = petRepo.findByIdAndVaccinatedAndAdopted(petId, "Y", "N");
     } catch (Exception e) {
-      throw new PetStoreExeption(PetStoreErrors.ERROR_GET_VACCINATED_PET_BY_ID,
-          e);
+      throw new PetStoreExeption(PetStoreErrors.ERROR_GET_VACCINATED_PET_BY_ID, e);
     }
 
-    return (pet != null ? new PetBaseDto(pet.getId(), pet.getName(),
-        PetSex.valueOf(pet.getSex())) : null);
+    return (pet != null ? new PetBaseDto(pet.getId(), pet.getName(), PetSex.valueOf(pet.getSex()))
+        : null);
   }
 
   @Override
-  public PetInfoDto setVaccinatedStatus(Long id, boolean isVaccinated)
-      throws PetStoreExeption {
+  public PetInfoDto setVaccinatedStatus(Long id, boolean isVaccinated) throws PetStoreExeption {
     Pet pet = findExistingPetById(id);
     pet.setVaccinated(isVaccinated);
 
@@ -129,8 +123,7 @@ public class PetServiceImpl implements PetService {
     }
 
     streamBridge.send(Constants.ADOPT_PET_OUT, json);
-    SharedConstants.LOG
-        .info("Sent Pet Adoption Request to downstream systems - " + adoption);
+    SharedConstants.LOG.info("Sent Pet Adoption Request to downstream systems - " + adoption);
 
     // Set pet adopted & save
     adopted.setAdopted("Y");
@@ -146,8 +139,9 @@ public class PetServiceImpl implements PetService {
   }
 
   private Pet findExistingPetById(Long id) throws PetStoreExeption {
-    return findPetById(id).orElseThrow(() -> new PetStoreExeption(
-        PetStoreErrors.ERROR_PET_NOT_FOUND, "Pet id " + id + " not found."));
+    return findPetById(id)
+        .orElseThrow(() -> new PetStoreExeption(PetStoreErrors.ERROR_PET_NOT_FOUND,
+            "Pet id " + id + " not found."));
   }
 
   private PetAdoptionDto mapPetToPetAdoptionDto(long petId, long clientId) {
@@ -159,7 +153,7 @@ public class PetServiceImpl implements PetService {
   }
 
   private PetInfoDto mapPetToPetInfoDto(Pet pet) {
-    return new PetInfoDto(pet.getId(), pet.getName(),
-        PetSex.valueOf(pet.getSex()), pet.getVaccinated());
+    return new PetInfoDto(pet.getId(), pet.getName(), PetSex.valueOf(pet.getSex()),
+        pet.getVaccinated());
   }
 }

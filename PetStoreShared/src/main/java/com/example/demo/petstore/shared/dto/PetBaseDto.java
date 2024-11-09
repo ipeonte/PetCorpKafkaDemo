@@ -19,8 +19,7 @@ public class PetBaseDto {
   /**
    * Default constructor
    */
-  public PetBaseDto() {
-  }
+  public PetBaseDto() {}
 
   public PetBaseDto(Long id, String name, PetSex sex) {
     this.id = id;

@@ -40,24 +40,21 @@ public class PetOfficeStoryTest {
 
   @Test
   void testGetAllCustomers() {
-    List<?> clients =
-        _rest.getForObject(SharedConstants.BASE_URL + "/clients", List.class);
+    List<?> clients = _rest.getForObject(SharedConstants.BASE_URL + "/clients", List.class);
     assertNotNull(clients);
     assertEquals(2, clients.size());
   }
 
   /**
-   * 1. Push adoption pet event
-   * 2. Check if message about pet adoption received and inserted into ClientPetRef table
-   * 3. Check if client has a new adopted pet
+   * 1. Push adoption pet event 2. Check if message about pet adoption received and inserted into
+   * ClientPetRef table 3. Check if client has a new adopted pet
    * 
    * @throws JsonParseException
    * @throws JsonMappingException
    * @throws IOException
    */
   @Test
-  public void testPetAdoption()
-      throws JsonParseException, JsonMappingException, IOException {
+  public void testPetAdoption() throws JsonParseException, JsonMappingException, IOException {
     final long petId = 1;
     final long clientId = 2;
 
@@ -69,8 +66,7 @@ public class PetOfficeStoryTest {
     assertNotNull(petInfo.getRegistered(), "Registered field not empty");
 
     // 1. Push adoption pet event
-    this.input.send(new GenericMessage<String>(
-        SharedConstants.MAPPER.writeValueAsString(petInfo)));
+    this.input.send(new GenericMessage<String>(SharedConstants.MAPPER.writeValueAsString(petInfo)));
 
     // 2. Check if message about pet adoption received and inserted into ClientPetRef table
     List<ClientPetRef> list = cpRepo.findAll();
@@ -93,9 +89,8 @@ public class PetOfficeStoryTest {
 
   private List<Integer> getClientPetsList(long clientId, int size) {
     @SuppressWarnings("unchecked")
-    List<Integer> pets = _rest.getForObject(
-        SharedConstants.BASE_URL + "/clients/" + clientId + "/pets",
-        List.class);
+    List<Integer> pets =
+        _rest.getForObject(SharedConstants.BASE_URL + "/clients/" + clientId + "/pets", List.class);
 
     assertNotNull(pets, "List of pets is NULL");
     assertEquals(size, pets.size(), "pets list size doesn't match.");

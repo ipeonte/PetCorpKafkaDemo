@@ -29,11 +29,10 @@ public class ClientPetRef {
   private Timestamp registered;
 
   /**
-   * Default constructor. Required by JPA to work properly since one more 
-   * custom constructor defined.
+   * Default constructor. Required by JPA to work properly since one more custom constructor
+   * defined.
    */
-  public ClientPetRef() {
-  }
+  public ClientPetRef() {}
 
   public ClientPetRef(Long petId, Client client, Timestamp registered) {
     this.petId = petId;

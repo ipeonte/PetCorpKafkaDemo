@@ -18,7 +18,7 @@ public interface PetService {
    * Get all pets
    * 
    * @return All Pets
-   * @throws PetStoreExeption 
+   * @throws PetStoreExeption
    */
   List<PetInfoDto> getAllPets() throws PetStoreExeption;
 
@@ -26,7 +26,7 @@ public interface PetService {
    * Get only vaccinated pets
    * 
    * @return All Pets
-   * @throws PetStoreExeption 
+   * @throws PetStoreExeption
    */
   List<PetBaseDto> getVaccinatedPets() throws PetStoreExeption;
 
@@ -35,7 +35,7 @@ public interface PetService {
    * 
    * @param id Pet Id
    * @return AllPetInfoDto object or null if nothing found
-   * @throws PetStoreExeption 
+   * @throws PetStoreExeption
    */
   PetInfoDto getPetById(Long id) throws PetStoreExeption;
 
@@ -45,7 +45,7 @@ public interface PetService {
    * @param pet AllPetInfoDto Object
    * 
    * @return Pet Id for newly added pet
-   * @throws PetStoreExeption 
+   * @throws PetStoreExeption
    */
   PetInfoDto addPet(PetInfoDto pet) throws PetStoreExeption;
 
@@ -55,7 +55,7 @@ public interface PetService {
    * @param petId Pet Id
    * 
    * @return PetDto
-   * @throws PetStoreExeption 
+   * @throws PetStoreExeption
    */
   PetBaseDto getVaccinatedPetById(Long petId) throws PetStoreExeption;
 
@@ -67,8 +67,7 @@ public interface PetService {
    * 
    * @throws PetStoreExeption
    */
-  PetInfoDto setVaccinatedStatus(Long id, boolean isVaccinated)
-      throws PetStoreExeption;
+  PetInfoDto setVaccinatedStatus(Long id, boolean isVaccinated) throws PetStoreExeption;
 
   /**
    * Adopt pet by Id
@@ -76,7 +75,7 @@ public interface PetService {
    * @param petId Pet Id
    * @param clientId Client Id
    * 
-   * @throws PetStoreExeption 
+   * @throws PetStoreExeption
    */
   void adoptPet(Long petId, Long clientId) throws PetStoreExeption;
 }

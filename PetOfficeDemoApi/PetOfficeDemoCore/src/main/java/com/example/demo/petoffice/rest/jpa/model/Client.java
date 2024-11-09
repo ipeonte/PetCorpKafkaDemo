@@ -29,11 +29,10 @@ public class Client {
   List<ClientPetRef> pets;
 
   /**
-   * Default constructor. Required by JPA to work properly since one more 
-   * custom constructor defined.
+   * Default constructor. Required by JPA to work properly since one more custom constructor
+   * defined.
    */
-  public Client() {
-  }
+  public Client() {}
 
   public Long getId() {
     return id;

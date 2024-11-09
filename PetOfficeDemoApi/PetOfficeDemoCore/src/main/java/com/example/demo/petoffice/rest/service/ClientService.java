@@ -18,7 +18,7 @@ public interface ClientService {
    * Get all clients
    * 
    * @return All Clients
-   * @throws PetOfficeExeption 
+   * @throws PetOfficeExeption
    */
   List<ClientDto> getAllClients() throws PetOfficeExeption;
 
@@ -27,7 +27,7 @@ public interface ClientService {
    * 
    * @param clientId
    * @param petId
-   * @throws PetOfficeExeption 
+   * @throws PetOfficeExeption
    */
   void adoptPet(PetAdoptionDto petAdoption) throws PetOfficeExeption;
 
@@ -37,7 +37,7 @@ public interface ClientService {
    * @param id Client Id
    * 
    * @return List with Pet Id
-   * @throws PetOfficeExeption 
+   * @throws PetOfficeExeption
    */
   List<Long> getClientPets(Long id) throws PetOfficeExeption;
 }

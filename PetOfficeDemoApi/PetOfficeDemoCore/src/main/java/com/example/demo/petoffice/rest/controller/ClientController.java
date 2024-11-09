@@ -28,9 +28,10 @@ public class ClientController {
   private ClientService clientService;
 
   /*********************************/
-  /**       Common Section        **/
+  /** Common Section **/
   /**
-   * @throws PetOfficeExeption *******************************/
+   * @throws PetOfficeExeption
+   *******************************/
 
   @GetMapping("/clients")
   public List<ClientDto> getClients() throws PetOfficeExeption {
@@ -38,8 +39,7 @@ public class ClientController {
   }
 
   @GetMapping("/clients/{id}/pets")
-  public List<Long> getClientPets(@PathVariable Long id)
-      throws PetOfficeExeption {
+  public List<Long> getClientPets(@PathVariable Long id) throws PetOfficeExeption {
     return clientService.getClientPets(id);
   }
 

@@ -21,8 +21,7 @@ public class PetAdoptionDto {
   /**
    * Default constructor
    */
-  public PetAdoptionDto() {
-  }
+  public PetAdoptionDto() {}
 
   public PetAdoptionDto(Long petId, Long clientId) {
     this.petId = petId;

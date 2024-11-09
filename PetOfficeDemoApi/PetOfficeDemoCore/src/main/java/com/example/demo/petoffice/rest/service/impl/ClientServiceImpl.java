@@ -37,9 +37,8 @@ public class ClientServiceImpl implements ClientService {
       throw new PetOfficeExeption(PetOfficeErrors.ERROR_FIND_ALL_CLIENTS, e);
     }
 
-    return clients
-        .stream().map(client -> new ClientDto(client.getId(),
-            client.getFirstName(), client.getLastName()))
+    return clients.stream()
+        .map(client -> new ClientDto(client.getId(), client.getFirstName(), client.getLastName()))
         .collect(Collectors.toList());
   }
 

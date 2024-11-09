@@ -6,19 +6,19 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * pet status in the store
  */
 public enum PetSex {
-	M("Male"),
+  M("Male"),
 
-	F("Female");
+  F("Female");
 
-	private String value;
+  private String value;
 
-	PetSex(String value) {
-		this.value = value;
-	}
+  PetSex(String value) {
+    this.value = value;
+  }
 
-	@Override
-	@JsonValue
-	public String toString() {
-		return value;
-	}
+  @Override
+  @JsonValue
+  public String toString() {
+    return value;
+  }
 }

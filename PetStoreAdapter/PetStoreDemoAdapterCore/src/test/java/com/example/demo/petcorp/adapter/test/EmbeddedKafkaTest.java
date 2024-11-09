@@ -36,8 +36,7 @@ public class EmbeddedKafkaTest {
 
     PetAdoptionDto petAdoption = new PetAdoptionDto(petId, clientId);
     assertNull(petAdoption.getRegistered(), "Registered field not empty");
-    String adoptionInfo =
-        SharedConstants.MAPPER.writeValueAsString(petAdoption);
+    String adoptionInfo = SharedConstants.MAPPER.writeValueAsString(petAdoption);
 
     streamBridge.send("adopt-pet", adoptionInfo);
 
@@ -47,15 +46,13 @@ public class EmbeddedKafkaTest {
 
     // Check if anything received
     assertFalse(TestKafkaConfig.PET_LIST.size() == 0, "Pet List is empty.");
-    assertEquals(1, TestKafkaConfig.PET_LIST.size(),
-        "Size of Pet List doesn't match.");
+    assertEquals(1, TestKafkaConfig.PET_LIST.size(), "Size of Pet List doesn't match.");
     PetAdoptionDto recv = TestKafkaConfig.PET_LIST.get(0);
 
     assertEquals(petId, recv.getPetId(), "PetId doesn't match.");
     assertEquals(clientId, recv.getClientId(), "ClientId doesn't match.");
     assertNotNull(recv.getRegistered(), "Registered is NULL");
 
-    TestUtils.checkDateStampDiff(
-        recv.getRegistered().toEpochSecond(ZoneOffset.UTC), waitTime);
+    TestUtils.checkDateStampDiff(recv.getRegistered().toEpochSecond(ZoneOffset.UTC), waitTime);
   }
 }

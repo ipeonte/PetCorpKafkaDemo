@@ -7,5 +7,5 @@ import com.example.demo.petoffice.rest.jpa.model.Client;
 
 @Repository
 public interface ClientRepository extends JpaRepository<Client, Long> {
-  
+
 }

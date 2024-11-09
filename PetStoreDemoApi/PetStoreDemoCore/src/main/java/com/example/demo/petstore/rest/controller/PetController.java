@@ -36,7 +36,7 @@ public class PetController {
   private PetService petService;
 
   /*********************************/
-  /**       Common Section        **/
+  /** Common Section **/
   /*********************************/
 
   @GetMapping("/pets")
@@ -45,15 +45,14 @@ public class PetController {
   }
 
   @GetMapping("/pet/{petId}")
-  public PetBaseDto findPetById(@PathVariable Long petId)
-      throws PetStoreExeption {
+  public PetBaseDto findPetById(@PathVariable Long petId) throws PetStoreExeption {
     PetBaseDto res = petService.getVaccinatedPetById(petId);
 
     return res;
   }
 
   /*********************************/
-  /**        Admin Section        **/
+  /** Admin Section **/
   /*********************************/
 
   @GetMapping(Constants.ADMIN_BASE + "/pets")
@@ -62,30 +61,28 @@ public class PetController {
   }
 
   @GetMapping(Constants.ADMIN_BASE + "/pet/{petId}")
-  public PetInfoDto findVaccinatedPetById(@PathVariable Long petId)
-      throws PetStoreExeption {
+  public PetInfoDto findVaccinatedPetById(@PathVariable Long petId) throws PetStoreExeption {
     return petService.getPetById(petId);
   }
 
   @PostMapping(Constants.ADMIN_BASE + "/pet")
-  public PetInfoDto addPet(@Valid @RequestBody PetInfoDto pet)
-      throws PetStoreExeption {
+  public PetInfoDto addPet(@Valid @RequestBody PetInfoDto pet) throws PetStoreExeption {
     return petService.addPet(pet);
   }
 
   @PutMapping(Constants.ADMIN_BASE + "/pet/{petId}/vaccinated")
-  public PetInfoDto addPet(@PathVariable Long petId,
-      @Valid @RequestBody Boolean isVaccinated) throws PetStoreExeption {
+  public PetInfoDto addPet(@PathVariable Long petId, @Valid @RequestBody Boolean isVaccinated)
+      throws PetStoreExeption {
     return petService.setVaccinatedStatus(petId, isVaccinated);
   }
 
   /*********************************/
-  /**        Manager Section        **/
+  /** Manager Section **/
   /*********************************/
 
   @PostMapping(Constants.MGR_BASE + "/pet/{petId}/{clientId}")
-  public void adoptPet(@PathVariable Long petId,
-      @PathVariable Long clientId) throws PetStoreExeption {
+  public void adoptPet(@PathVariable Long petId, @PathVariable Long clientId)
+      throws PetStoreExeption {
     petService.adoptPet(petId, clientId);
   }
 }
