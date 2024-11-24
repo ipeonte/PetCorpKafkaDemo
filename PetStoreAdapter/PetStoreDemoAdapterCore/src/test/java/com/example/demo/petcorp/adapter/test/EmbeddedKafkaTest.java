@@ -4,10 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-
 import java.time.ZoneOffset;
-import java.util.concurrent.TimeUnit;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -41,8 +38,7 @@ public class EmbeddedKafkaTest {
     streamBridge.send("adopt-pet", adoptionInfo);
 
     // Wait 5 sec. for the message to be received
-    final int waitTime = 5;
-    TestKafkaConfig.COUNT.await(waitTime, TimeUnit.SECONDS);
+    TestUtils.waitCountDown(TestKafkaConfig.COUNT);
 
     // Check if anything received
     assertFalse(TestKafkaConfig.PET_LIST.size() == 0, "Pet List is empty.");
@@ -53,6 +49,7 @@ public class EmbeddedKafkaTest {
     assertEquals(clientId, recv.getClientId(), "ClientId doesn't match.");
     assertNotNull(recv.getRegistered(), "Registered is NULL");
 
-    TestUtils.checkDateStampDiff(recv.getRegistered().toEpochSecond(ZoneOffset.UTC), waitTime);
+    TestUtils.checkDateStampDiff(recv.getRegistered().toEpochSecond(ZoneOffset.UTC),
+        TestUtils.WAIT_TIME);
   }
 }

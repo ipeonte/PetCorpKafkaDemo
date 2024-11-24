@@ -34,6 +34,14 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-stream-binder-kafka</artifactId>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.example.demo.pet-corp</groupId>
+			<artifactId>pet-shared</artifactId>
+			<version>${pet-shared.version}</version>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
   
 	<build>
