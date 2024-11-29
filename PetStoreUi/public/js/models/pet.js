@@ -1,19 +1,3 @@
-/*
- * Open Source Business Intelligence Tools - http://www.osbitools.com/
- * 
- * Copyright 2016 IvaLab Inc. and by respective contributors (see below).
- * 
- * Released under the MIT license
- * http://opensource.org/licenses/MIT
- *
- * Date: 2016-03-30
- * 
- * Contributors:
- * 
- * Igor Peonte <igor.144@gmail.com>
- * 
- */
-
 "use strict";
 
 /**
