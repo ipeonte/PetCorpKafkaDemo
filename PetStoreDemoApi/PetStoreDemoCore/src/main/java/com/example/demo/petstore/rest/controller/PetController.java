@@ -1,11 +1,8 @@
 package com.example.demo.petstore.rest.controller;
 
 import java.util.List;
-
-import jakarta.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,13 +10,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.example.demo.petcorp.shared.SharedConstants;
 import com.example.demo.petstore.rest.common.Constants;
 import com.example.demo.petstore.rest.error.PetStoreExeption;
 import com.example.demo.petstore.rest.service.PetService;
 import com.example.demo.petstore.shared.dto.PetBaseDto;
 import com.example.demo.petstore.shared.dto.PetInfoDto;
+import jakarta.validation.Valid;
 
 /**
  * PetStore Controller
@@ -39,11 +36,13 @@ public class PetController {
   /** Common Section **/
   /*********************************/
 
+  @CrossOrigin
   @GetMapping("/pets")
   public List<PetBaseDto> getPets() throws PetStoreExeption {
     return petService.getVaccinatedPets();
   }
 
+  @CrossOrigin
   @GetMapping("/pet/{petId}")
   public PetBaseDto findPetById(@PathVariable Long petId) throws PetStoreExeption {
     PetBaseDto res = petService.getVaccinatedPetById(petId);

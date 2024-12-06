@@ -1,0 +1,10 @@
+nav.navbar-default {
+    background-color: #f8f8f8;
+}
+
+nav {
+    padding: 0;
+    border: 1px solid;
+    border-bottom-color: #f7e7e7;
+    border-color: #f8f8f8 #f8f8f8 #f7e7e7 #f8f8f8;
+}

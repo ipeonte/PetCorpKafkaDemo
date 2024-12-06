@@ -72,12 +72,6 @@
 	      <artifactId>spring-cloud-stream-binder-kafka</artifactId>
 	      <scope>test</scope>
 	    </dependency>
-	    
-<!--	    <dependency>-->
-<!--	      <groupId>org.springframework.boot</groupId>-->
-<!--	      <artifactId>spring-boot-starter-jdbc</artifactId>-->
-<!--	      <scope>test</scope>-->
-<!--	    </dependency>-->
 		
 		<!-- Springboot Test dependencies -->
 

@@ -58,5 +58,6 @@
 		<module>SecuritySession</module>
 		<module>SecurityCore</module>
 		<module>SecurityCommon</module>
+		<module>NoSecurityCommon</module>
 	</modules>
 </project>

@@ -5,3 +5,4 @@ target
 .settings
 .factorypath
 *.m2
+mysql.properties

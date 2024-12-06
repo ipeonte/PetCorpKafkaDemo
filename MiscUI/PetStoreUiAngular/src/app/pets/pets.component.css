@@ -1,0 +1,51 @@
+.all-pets {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  table.pets tr th.pet-id {
+    width: 10%;
+  }
+  
+  table.pets tr th.pet-name {
+    width: 50%
+  }
+  
+  table.pets tr th.pet-status {
+    width: 25%
+  }
+  
+  table.pets tr th.pet-action {
+    width: 15%
+  }
+
+  table.pets button.btn-primary,
+  table.pets button.btn-danger {
+    color: white;
+    padding-block-end: 8px;
+    padding-block-start: 8px;
+    padding-bottom: 8px;
+    padding-inline-end: 8px;
+    padding-inline-start: 8px;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 8px;
+  }
+
+  table.pets button.btn-primary {
+    background-color: rgb(13, 110, 253);
+  }
+
+  table.pets button.btn-danger {
+    background-color: rgb(220, 53, 69);
+  }
+
+  input.form-control {
+    display: inline-block;
+    width: 45%;
+  }
+
+  .pet-search > button {
+    margin-left: 4px;
+  }

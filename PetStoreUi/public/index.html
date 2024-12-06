@@ -63,7 +63,7 @@
           <td class="pet-id">{{ pet.id }}</td>
           <td class="pet-name">{{ pet.name }}</td>
           <td class="pet-sex">{{ pet.sex }}</td>
-          <td class="pet-vaccinated" ng-if="is_visible(3)">{{ pet.vaccinated == 'Y' ? "Yes" : "No" }} </td>
+          <td class="pet-vaccinated" ng-if="is_visible(3)">{{ pet.vaccinated == 'Y' ? "Yes" : "No" }}</td>
           <td class="text-center" ng-if="is_visible(2)">
           <input type="checkbox"
             ng-model="checked[pet.id]"

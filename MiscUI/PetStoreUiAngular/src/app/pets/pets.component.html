@@ -1,0 +1,127 @@
+<div class="all-pets">
+  <div class="pb-2 pt-4 w-25 pet-search">
+    <input type="text" class="form-control" placeholder="Enter Pet Id" [(ngModel)]="pet_id">
+
+    <button type="button" class="btn btn-primary" [disabled]="!pet_id" (click)="find()">
+      Find
+    </button>
+
+    <button type="button" class="btn btn-secondary" (click)="reset()">
+      Reset
+    </button>
+  </div>
+
+  <table class="table table-bordered pets">
+    <tr>
+      <th class="pet-id">#</th>
+      <th class="pet-name">Name</th>
+      <th class="pet-status">Sex</th>
+      @if (is_visible(3)) {
+      <th class="pet-vaccinated">Vaccinated</th>
+      }
+      @if (is_visible(2)) {
+      <th class="pet-action text-center">Selection</th>
+      }
+    </tr>
+    @if (pets.length == 0) {
+    <tr>
+      <td colspan=5 class="text-center">No data available</td>
+    </tr>
+    }
+    @else {
+    @for (pet of pets; track pet.id) {
+    <tr>
+      <td class="pet-id">{{ pet.id }}</td>
+      <td class="pet-name">{{ pet.name }}</td>
+      <td class="pet-sex">{{ pet.sex }}</td>
+      @if (is_visible(3)) {
+      <td class="pet-vaccinated">{{ pet.vaccinated == 'Y' ? "Yes" : "No" }} </td>
+      }
+      @if (is_visible(2)) {
+      <td class="text-center">
+        <input type="checkbox" [(ngModel)]="pet.checked" (change)="toggle_selection(pet)" />
+      </td>
+      }
+    </tr>
+    }
+    }
+    @if (pets.length > 0) {
+    <tr>
+      <td colspan="3" class="text-center">
+        @if (is_visible(3)) {
+
+        <button id="add_pet" class="btn btn-primary" (click)="openModal(newPetModal)">
+          Add Pet
+        </button>
+        }
+      </td>
+
+      @if (is_visible(2)) {
+      <td class="text-center text-right" colspan="2">
+        <div class="adopt">
+          <label>Select Customer</label>
+          <select id="client_list" [(ngModel)]="client_id">
+            <option value="" default>Select Client</option>
+            @for (client of clients; track client.id) {
+            <option value="{{ client.id }}">{{ client.firstName }} {{ client.lastName }}</option>
+            }
+          </select><br />
+          <button id="adopt_pet" class="btn btn-danger" (click)="adopt_pets()"
+            [disabled]="selected_cnt == 0 || !client_id">
+            Adopt Selected
+          </button>
+        </div>
+      </td>
+      }
+    </tr>
+    }
+  </table>
+
+  <!-- The Modal -->
+  <div class="modal fade" #newPetModal id="newPetModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">New Pet Form</h4>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Pet Name: &nbsp;</label>
+            <input type="text" class="form-control" placeholder="Enter Pet Name" [(ngModel)]="new_pet.name"
+              ng_pattern="name_regex">
+          </div>
+          <div class="form-group row mt-2">
+            <label class="w-25 text-nowrap mt-1">Select Pet Sex: &nbsp;</label>
+            <select class="form-select w-25" [(ngModel)]="new_pet.sex">
+              <option value="Male">Male</option>
+              <option value="Female">Femail</option>
+            </select>
+          </div>
+          <div class="form-group row mt-2">
+            <label class="w-25 text-nowrap mt-1">Is Vaccinated: &nbsp;</label>
+            <select class="form-select w-25" [(ngModel)]="new_pet.vaccinated">
+              <option value="Y">Yes</option>
+              <option value="N" ng-selected="selected">No</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary"
+            [disabled]="!(new_pet.name && new_pet.sex && new_pet.vaccinated)" (click)="addNewPet()">
+            Submit
+          </button>
+          <button type="button" class="btn btn-default float-right" (click)="closeModal()">
+            Cancel
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
