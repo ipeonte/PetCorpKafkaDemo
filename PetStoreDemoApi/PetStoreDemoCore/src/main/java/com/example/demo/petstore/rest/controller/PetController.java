@@ -2,7 +2,6 @@ package com.example.demo.petstore.rest.controller;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,13 +35,11 @@ public class PetController {
   /** Common Section **/
   /*********************************/
 
-  @CrossOrigin
   @GetMapping("/pets")
   public List<PetBaseDto> getPets() throws PetStoreExeption {
     return petService.getVaccinatedPets();
   }
 
-  @CrossOrigin
   @GetMapping("/pet/{petId}")
   public PetBaseDto findPetById(@PathVariable Long petId) throws PetStoreExeption {
     PetBaseDto res = petService.getVaccinatedPetById(petId);

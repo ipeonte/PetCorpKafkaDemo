@@ -1,13 +1,13 @@
 package com.example.demo.rest.security.auth_server;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import com.example.rest.common.security.core.CookieProperties;
 
 /**
  * Security Configuration
@@ -18,8 +18,8 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class AuthServerConfig {
 
-  @Value("${cookie.domain}")
-  String cdomain;
+  @Autowired
+  private CookieProperties cookieProperties;
 
   @Bean
   SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -32,7 +32,13 @@ public class AuthServerConfig {
       
       // Authenticate all
       .authorizeHttpRequests((authz) ->
-        authz.anyRequest().authenticated())
+        authz
+          // Allow login page
+          .requestMatchers("/login.html").permitAll()
+          .requestMatchers("/favicon.ico").permitAll()
+          // Everything authenticated except login page
+          .anyRequest().authenticated())
+          
       
       // Disable logout redirect
       .logout(logout -> logout.logoutSuccessUrl("/login").permitAll())
@@ -40,7 +46,7 @@ public class AuthServerConfig {
       // Using basic form login with custom login page
       .formLogin(form -> form.loginPage("/login")
           // Redirect back to cookie domain
-          .defaultSuccessUrl("http://" + cdomain + "/").permitAll());
+          .defaultSuccessUrl("http://" + cookieProperties.getDomain() + "/user_info").permitAll());
     
     // @formatter:on
 
@@ -48,15 +54,17 @@ public class AuthServerConfig {
   }
 
   @Bean
-  InMemoryUserDetailsManager userDetailsService() {
+  InMemoryUserDetailsManager userDetailsServiceEx() {
     // @formatter:off
-    @SuppressWarnings("deprecation")
-    UserDetails user = User.withDefaultPasswordEncoder()
-      .username("pet_keeper").password("{noop}password").roles("USER_0")
-      .username("user").password("{noop}password").roles("PET_KEEPER_01", "USER_0")
-      .username("manager").password("{noop}password").roles("MANAGER_10", "PET_KEEPER_01", "USER_0")
-      .build();
+    InMemoryUserDetailsManager mgr = new InMemoryUserDetailsManager();
+    mgr.createUser(User.builder()
+      .username("user").password("{noop}password").roles("USER_0").build());
+    mgr.createUser(User.builder()
+        .username("manager").password("{noop}password").roles("MANAGER_10", "PET_KEEPER_01", "USER_0").build());
+    mgr.createUser(User.builder()
+        .username("pet_keeper").password("{noop}password").roles("PET_KEEPER_01", "USER_0").build());
+
     // @formatter:on
-    return new InMemoryUserDetailsManager(user);
+    return mgr;
   }
 }
