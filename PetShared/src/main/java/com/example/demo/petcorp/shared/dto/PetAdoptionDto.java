@@ -18,14 +18,18 @@ public class PetAdoptionDto {
   // Timestamp when adoption was registered
   private LocalDateTime registered;
 
+  // Flag for synthetic test
+  private boolean stf;
+
   /**
    * Default constructor
    */
   public PetAdoptionDto() {}
 
-  public PetAdoptionDto(Long petId, Long clientId) {
+  public PetAdoptionDto(Long petId, Long clientId, boolean stf) {
     this.petId = petId;
     this.clientId = clientId;
+    this.stf = stf;
   }
 
   public Long getPetId() {
@@ -50,6 +54,14 @@ public class PetAdoptionDto {
 
   public void setRegistered(LocalDateTime registered) {
     this.registered = registered;
+  }
+
+  public boolean getStf() {
+    return stf;
+  }
+
+  public void setStf(boolean stf) {
+    this.stf = stf;
   }
 
   @Override

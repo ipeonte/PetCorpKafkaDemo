@@ -3,10 +3,8 @@ package com.example.demo.petcorp.adapter.test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-
 import java.io.IOException;
 import java.time.ZoneOffset;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,7 +15,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.messaging.support.GenericMessage;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
-
 import com.example.demo.petcorp.shared.SharedConstants;
 import com.example.demo.petcorp.shared.TestUtils;
 import com.example.demo.petcorp.shared.dto.PetAdoptionDto;
@@ -42,7 +39,7 @@ public class PetConvertsionTest {
     final long petId = 1;
     final long clientId = 2;
 
-    PetAdoptionDto in = new PetAdoptionDto(petId, clientId);
+    PetAdoptionDto in = new PetAdoptionDto(petId, clientId, false);
     assertNull(in.getRegistered(), "Registered field not empty");
 
     input.send(new GenericMessage<byte[]>(SharedConstants.MAPPER.writeValueAsBytes(in)));

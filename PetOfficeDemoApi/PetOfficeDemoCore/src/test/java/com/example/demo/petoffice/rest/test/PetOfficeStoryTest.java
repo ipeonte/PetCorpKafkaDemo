@@ -3,21 +3,21 @@ package com.example.demo.petoffice.rest.test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.cloud.stream.binder.test.InputDestination;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.support.GenericMessage;
 import org.springframework.test.context.TestPropertySource;
-
 import com.example.demo.petcorp.shared.SharedConstants;
 import com.example.demo.petcorp.shared.dto.PetAdoptionDto;
 import com.example.demo.petoffice.rest.jpa.model.ClientPetRef;
@@ -61,7 +61,7 @@ public class PetOfficeStoryTest {
     // 0. Check client-> pet ref is empty before test
     getClientPetsList(clientId, 0);
 
-    PetAdoptionDto petInfo = new PetAdoptionDto(petId, clientId);
+    PetAdoptionDto petInfo = new PetAdoptionDto(petId, clientId, false);
     petInfo.setRegistered(LocalDateTime.now());
     assertNotNull(petInfo.getRegistered(), "Registered field not empty");
 
@@ -85,6 +85,14 @@ public class PetOfficeStoryTest {
     List<Integer> pets = getClientPetsList(clientId, 1);
     int id = pets.get(0).intValue();
     assertEquals(petId, id, "Adopted pet id doesn't match.");
+  }
+
+  @Test
+  public void testClearSynthData() {
+    // Clear synthetic test data
+    ResponseEntity<String> response = _rest.exchange(SharedConstants.BASE_URL + "/clients/clear_st",
+        HttpMethod.DELETE, null, String.class);
+    assertEquals(HttpStatus.OK, response.getStatusCode());
   }
 
   private List<Integer> getClientPetsList(long clientId, int size) {

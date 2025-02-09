@@ -31,7 +31,7 @@ public class EmbeddedKafkaTest {
     final long petId = 1;
     final long clientId = 2;
 
-    PetAdoptionDto petAdoption = new PetAdoptionDto(petId, clientId);
+    PetAdoptionDto petAdoption = new PetAdoptionDto(petId, clientId, false);
     assertNull(petAdoption.getRegistered(), "Registered field not empty");
     String adoptionInfo = SharedConstants.MAPPER.writeValueAsString(petAdoption);
 

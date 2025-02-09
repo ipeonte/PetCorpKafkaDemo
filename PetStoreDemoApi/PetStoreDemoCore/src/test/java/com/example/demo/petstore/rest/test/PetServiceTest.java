@@ -25,7 +25,7 @@ public class PetServiceTest {
 
   @Test
   public void testGetAllPetsGood() throws PetStoreExeption {
-    List<PetBaseDto> pets = petService.getVaccinatedPets();
+    List<PetBaseDto> pets = petService.getVaccinatedPets(false);
 
     assertNotNull(pets);
     assertEquals(2, pets.size());
@@ -39,32 +39,40 @@ public class PetServiceTest {
   }
 
   @Test
+  public void testGetSynthTest() throws PetStoreExeption {
+    List<PetBaseDto> pets = petService.getVaccinatedPets(true);
+
+    assertNotNull(pets);
+    assertEquals(0, pets.size());
+  }
+
+  @Test
   public void testFindPetByIdPass() throws PetStoreExeption {
-    PetBaseDto pet = petService.getPetById(1L);
+    PetBaseDto pet = petService.getPetById(1L, false);
 
     checkPet(pet, "Lucky", PetSex.M);
   }
 
   @Test
   public void testFindPetByIdFail() throws PetStoreExeption {
-    checkPetNotFound(0L);
+    checkPetNotFound(0L, false);
   }
 
   @Test
   public void testAddDeletePet() throws PetStoreExeption {
-    PetInfoDto pet = petService.addPet(new PetInfoDto("Jira", PetSex.F, VACCINATED_FLAG));
+    PetInfoDto pet = petService.addPet(new PetInfoDto("Jira", PetSex.F, VACCINATED_FLAG), false);
     Long id = pet.getId();
-    checkPet(petService.getPetById(id), "Jira", PetSex.F);
+    checkPet(petService.getPetById(id, false), "Jira", PetSex.F);
 
     // Check vaccinated flag
     // DEMO
     try {
       assertEquals("Y", pet.getVaccinated(), "Vaccinated flag doesn't match.");
     } finally {
-      petService.adoptPet(id, 0L);
+      petService.adoptPet(id, 0L, false);
     }
 
-    checkPetNotFound(4L);
+    checkPetNotFound(4L, false);
   }
 
   private void checkPet(PetBaseDto pet, String name, PetSex status) {
@@ -73,8 +81,8 @@ public class PetServiceTest {
     assertEquals(status, pet.getSex());
   }
 
-  private void checkPetNotFound(long id) throws PetStoreExeption {
-    PetBaseDto pet = petService.getVaccinatedPetById(id);
+  private void checkPetNotFound(long id, boolean stf) throws PetStoreExeption {
+    PetBaseDto pet = petService.getVaccinatedPetById(id, stf);
     assertNull(pet, "Pet is not empty.");
   }
 }

@@ -11,7 +11,7 @@ import com.example.demo.petcorp.ui.web.configuration.TestUserInfoService;
 import com.example.rest.common.security.service.UserInfo;
 
 @TestPropertySource("classpath:/qa.properties")
-@EmbeddedKafka(topics = {"adopt-pet", "adopt-pet-info"}, partitions = 1)
+@EmbeddedKafka(topics = {"adopt-pet", "adopt-pet-event"}, partitions = 1)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class PetStoreDemoUiTest extends AbstractPetStoreDemoUiTest {
 

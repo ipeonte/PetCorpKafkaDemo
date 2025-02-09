@@ -52,8 +52,24 @@ public class PetStoreDemoRestStoryTest {
   private OutputDestination output;
 
   @Test
+  public void testAddFindDelRealPet() throws JsonParseException, JsonMappingException, IOException {
+    processAddFindDelPet(false, 1);
+  }
+
+  @Test
+  public void testAddFindDelSynchPet()
+      throws JsonParseException, JsonMappingException, IOException {
+    processAddFindDelPet(true, 0);
+
+    // Clear synthetic test data
+    ResponseEntity<String> response =
+        _rest.exchange(Constants.ADMIN_URL + "/clear_st", HttpMethod.DELETE, null, String.class);
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+  }
+
   @SuppressWarnings("unchecked")
-  public void testAddFindDelPet() throws JsonParseException, JsonMappingException, IOException {
+  public void processAddFindDelPet(boolean isSynthTest, int inum)
+      throws JsonParseException, JsonMappingException, IOException {
     ResponseEntity<String> response;
     String petInfoStr = "\"name\":\"Jira\",\"sex\":\"Female\",\"vaccinated\":\"N\"";
 
@@ -74,19 +90,17 @@ public class PetStoreDemoRestStoryTest {
         "Breed info url doesn't match.");
 
     // 1.a Get total number of vaccinated pets
-    List<PetBaseDto> vpets =
-        (List<PetBaseDto>) _rest.getForObject(SharedConstants.BASE_URL + "/pets", List.class);
+    List<PetBaseDto> vpets = (List<PetBaseDto>) _rest
+        .getForObject(SharedConstants.BASE_URL + "/pets" + getSynchFlag(isSynthTest), List.class);
     assertNotNull(vpets);
     int vcnt = vpets.size();
 
     // 1.b Get total number of all pets
-    List<PetInfoDto> pets =
-        (List<PetInfoDto>) _rest.getForObject(Constants.ADMIN_URL + "/pets", List.class);
-    assertNotNull(pets);
+    List<PetInfoDto> pets = checkTotalPetCnt(isSynthTest);
     int cnt = pets.size();
 
-    // 1. Check number are not the same and one is non-vaccinated
-    assertEquals(1, cnt - vcnt, "Number of vaccinated pet is one less than total.");
+    // 1. Check diff in numbers between vaccinated and non-vaccinated
+    assertEquals(inum, cnt - vcnt, "Number of vaccinated pet is one less than total.");
 
     // 2. Add new non-vaccinated pet
     HttpHeaders headers = new HttpHeaders();
@@ -94,8 +108,8 @@ public class PetStoreDemoRestStoryTest {
 
     HttpEntity<String> entity = new HttpEntity<String>("{" + petInfoStr + "}", headers);
 
-    ResponseEntity<PetInfoDto> resp =
-        _rest.postForEntity(Constants.ADMIN_URL + "/pet", entity, PetInfoDto.class);
+    ResponseEntity<PetInfoDto> resp = _rest.postForEntity(
+        Constants.ADMIN_URL + "/pet" + getSynchFlag(isSynthTest), entity, PetInfoDto.class);
 
     assertEquals(HttpStatus.OK, resp.getStatusCode());
 
@@ -103,41 +117,55 @@ public class PetStoreDemoRestStoryTest {
     long petId = resp.getBody().getId();
 
     // 3.a Check that new pet is visible for administration
-    findPetById(Constants.ADMIN_URL, petId);
+    findPetById(Constants.ADMIN_URL, petId, isSynthTest);
 
     // 3.b Check that it's not visible for public
-    checkPetNotFoundById(SharedConstants.BASE_URL, petId);
+    checkPetNotFoundById(SharedConstants.BASE_URL, petId, isSynthTest);
 
     // 3.c Vaccinate pet
-    setPetVaccinatedStatus(petId, Boolean.TRUE, headers);
+    setPetVaccinatedStatus(petId, Boolean.TRUE, headers, isSynthTest);
 
     // 3. c Check now it finally visible to public
-    findPetById(SharedConstants.BASE_URL, petId);
+    findPetById(SharedConstants.BASE_URL, petId, isSynthTest);
 
     // 3.c Correct vaccinated status since it was put by mistake
-    setPetVaccinatedStatus(petId, Boolean.FALSE, headers);
+    setPetVaccinatedStatus(petId, Boolean.FALSE, headers, isSynthTest);
 
     // 3.d Check that it again not visible for public
-    checkPetNotFoundById(SharedConstants.BASE_URL, petId);
+    checkPetNotFoundById(SharedConstants.BASE_URL, petId, isSynthTest);
 
     // 4. Adopt pet
-    response = _rest.exchange(Constants.MGR_URL + "/pet/" + petId + "/0", HttpMethod.POST, null,
-        String.class);
+    response =
+        _rest.exchange(Constants.MGR_URL + "/pet/" + petId + "/0" + getSynchFlag(isSynthTest),
+            HttpMethod.POST, null, String.class);
     assertEquals(HttpStatus.OK, response.getStatusCode());
 
     // 4. Check the total number of pets are the same
-    pets = (List<PetInfoDto>) _rest.getForObject(Constants.ADMIN_URL + "/pets", List.class);
-    assertNotNull(pets);
+    pets = checkTotalPetCnt(isSynthTest);
     assertEquals(cnt, pets.size());
 
     // 5. Check if message about pet adoption received.
     byte[] message = output.receive(1000).getPayload();
     PetAdoptionDto pet = SharedConstants.MAPPER.readValue(message, PetAdoptionDto.class);
-    assertEquals(4, pet.getPetId(), "Adopted pet id doesn't match.");
+    assertEquals(petId, pet.getPetId(), "Adopted pet id doesn't match.");
   }
 
-  private PetInfoDto findPetById(String base, Long id) {
-    ResponseEntity<PetInfoDto> response = _rest.getForEntity(base + "/pet/" + id, PetInfoDto.class);
+  @SuppressWarnings("unchecked")
+  private List<PetInfoDto> checkTotalPetCnt(boolean isSynthTest) {
+    List<PetInfoDto> pets;
+    pets = (List<PetInfoDto>) _rest
+        .getForObject(Constants.ADMIN_URL + "/pets" + getSynchFlag(isSynthTest), List.class);
+    assertNotNull(pets);
+    return pets;
+  }
+
+  private String getSynchFlag(boolean isSynthTest) {
+    return isSynthTest ? "?st" : "";
+  }
+
+  private PetInfoDto findPetById(String base, Long id, boolean isSynthTest) {
+    ResponseEntity<PetInfoDto> response =
+        _rest.getForEntity(base + "/pet/" + id + getSynchFlag(isSynthTest), PetInfoDto.class);
 
     return getPetInfoResponse(response, "Pet " + id + " not found.");
   }
@@ -150,8 +178,9 @@ public class PetStoreDemoRestStoryTest {
     return pet;
   }
 
-  private PetInfoDto checkPetNotFoundById(String base, Long id) {
-    ResponseEntity<PetInfoDto> response = _rest.getForEntity(base + "/pet/" + id, PetInfoDto.class);
+  private PetInfoDto checkPetNotFoundById(String base, Long id, boolean isSynthTest) {
+    ResponseEntity<PetInfoDto> response =
+        _rest.getForEntity(base + "/pet/" + id + getSynchFlag(isSynthTest), PetInfoDto.class);
 
     assertEquals(HttpStatus.OK, response.getStatusCode());
     PetInfoDto pet = response.getBody();
@@ -160,13 +189,14 @@ public class PetStoreDemoRestStoryTest {
     return pet;
   }
 
-  private void setPetVaccinatedStatus(Long petId, Boolean status, HttpHeaders headers) {
+  private void setPetVaccinatedStatus(Long petId, Boolean status, HttpHeaders headers,
+      boolean isSynthTest) {
     HttpEntity<Boolean> vaccinatedStatus = new HttpEntity<Boolean>(status, headers);
-    PetInfoDto petInfo =
-        getPetInfoResponse(
-            _rest.exchange(Constants.ADMIN_URL + "/pet/" + petId + "/vaccinated", HttpMethod.PUT,
-                vaccinatedStatus, PetInfoDto.class),
-            "Update vaccinated failed for Pet Id #" + petId);
+    PetInfoDto petInfo = getPetInfoResponse(
+        _rest.exchange(
+            Constants.ADMIN_URL + "/pet/" + petId + "/vaccinated" + getSynchFlag(isSynthTest),
+            HttpMethod.PUT, vaccinatedStatus, PetInfoDto.class),
+        "Update vaccinated failed for Pet Id #" + petId);
     assertEquals(petInfo.getVaccinated(), status ? "Y" : "N", "Vaccinated status doesn't match.");
   }
 }

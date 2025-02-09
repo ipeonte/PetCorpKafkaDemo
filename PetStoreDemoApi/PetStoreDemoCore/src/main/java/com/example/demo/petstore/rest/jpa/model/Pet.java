@@ -1,5 +1,6 @@
 package com.example.demo.petstore.rest.jpa.model;
 
+import com.example.demo.petcorp.shared.jpa.model.BaseModel;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,7 +16,7 @@ import jakarta.persistence.Table;
  */
 @Entity
 @Table
-public class Pet {
+public class Pet extends BaseModel {
 
   @Id
   @Column
@@ -40,10 +41,15 @@ public class Pet {
    */
   public Pet() {}
 
-  public Pet(String name, String sex, String vaccinated) {
+  public Pet(String name, String sex, String vaccinated, boolean stf) {
     this.name = name;
     this.setSex(sex);
     this.vaccinated = vaccinated;
+    this.setStf(stf);
+  }
+
+  public Pet(String name, String sex, String vaccinated) {
+    this(name, sex, vaccinated, false);
   }
 
   public Long getId() {

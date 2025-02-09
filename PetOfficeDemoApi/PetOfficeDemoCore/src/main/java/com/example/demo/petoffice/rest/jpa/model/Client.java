@@ -1,7 +1,7 @@
 package com.example.demo.petoffice.rest.jpa.model;
 
 import java.util.List;
-
+import com.example.demo.petcorp.shared.jpa.model.BaseModel;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,7 +12,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table
-public class Client {
+public class Client extends BaseModel {
 
   @Id
   @Column
