@@ -2,7 +2,7 @@
 Demo project for PetAdoption Inc. corporate operations based on persistence layer (RDBMS), Messaging platform (Kafka)
 and multiple API services and adapters.
 
-## Component Diagram
+## Diagrams
 
 ![PetCorporateDemo Component Diagram](https://raw.githubusercontent.com/ipeonte/PetCorpKafkaDemo/master/doc/PetCorpComponent.png)
 
