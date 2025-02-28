@@ -47,6 +47,7 @@
 		<module>PetCorpDemoAuthServer</module>
 		<module>PetCorpParent</module>
 		<module>PetShared</module>
+		<module>PetSharedJpa</module>
 		<module>PetStoreShared</module>
 		<module>PetStoreAdapter</module>
 		<module>PetStoreDemoApi</module>
