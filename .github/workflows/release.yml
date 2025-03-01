@@ -4,6 +4,16 @@ on:
   push:
     branches: [ "release/*" ]
   workflow_dispatch:
+    inputs:
+        pet_store_api:
+          description: 'PetStore API Version'     
+          required: true
+        pet_office_api:
+          description: 'PetOffice API Version'     
+          required: true
+        pet_adoption_adapter:
+          description: 'PetAdoption Adapter Version'     
+          required: true
 
 jobs:
   build:
