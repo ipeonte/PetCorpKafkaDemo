@@ -32,7 +32,7 @@ jobs:
       with:
         install-chromedriver: true
     - name: Build with Maven
-      run:
+      run: |
         mvn -B clean install
         cd Release
         mvn -B clean install
