@@ -6,9 +6,9 @@
 
     <parent>
 		<groupId>com.example.demo.pet-corp</groupId>
-		<artifactId>parent-petcorp</artifactId>
-		<version>2.0.0</version>
-		<relativePath/>
+		<artifactId>release-info</artifactId>
+		<version>1.0.0</version>
+		<relativePath>../</relativePath>
 	</parent>
 	
 	<packaging>jar</packaging>
@@ -24,7 +24,7 @@
 	</licenses>
 
 	<properties>
-		<ui-test-shared.version>2.0.0</ui-test-shared.version>
+		<ui-test-shared.version>1.0.0</ui-test-shared.version>
 		<selenium.version>4.26.0</selenium.version>
 		<selenium-server.version>3.141.59</selenium-server.version>
 		<scm-plugin.version>1.11.2</scm-plugin.version>
@@ -44,25 +44,26 @@
 	      <scope>test</scope>
 	    </dependency>
 	  
+	  	<!-- Release information -->
 		<!-- Embedded services -->
 		<dependency>
 			<groupId>com.example.demo.pet-corp</groupId>
 			<artifactId>petstore-core</artifactId>
-			<version>${petstore-core.version}</version>
+			<version>${petstore-api.version}</version>
 			<scope>test</scope>
 		</dependency>
 		
 		<dependency>
 	      <groupId>com.example.demo.pet-corp</groupId>
 	      <artifactId>petoffice-core</artifactId>
-	      <version>${petoffice-core.version}</version>
+	      <version>${petoffice-api.version}</version>
 	      <scope>test</scope>
 	    </dependency>
 	    
 	    <dependency>
 	      <groupId>com.example.demo.pet-corp</groupId>
 	      <artifactId>adapter-core</artifactId>
-	      <version>${adapter-core.version}</version>
+	      <version>${petadoption-adapter.version}</version>
 	      <scope>test</scope>
 	    </dependency>
 	    
@@ -208,29 +209,29 @@
   
   <build>
     <plugins>
-          <!-- Copy public folder from PetStoreUi project -->
-          <plugin>
-            <artifactId>maven-resources-plugin</artifactId>
-    
-            <executions>
-              <execution>
-                <id>copy-resources</id>
-                <phase>generate-resources</phase>
-                <configuration>
-                  <outputDirectory>target/test-classes/public</outputDirectory>
-                  <resources>
-                    <resource>
-                      <directory>../../PetStoreUi/public</directory>
-                      <filtering>false</filtering>
-                    </resource>
-                  </resources>
-                </configuration>
-                <goals>
-                  <goal>copy-resources</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
+      <!-- Copy public folder from PetStoreUi project -->
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+
+        <executions>
+          <execution>
+            <id>copy-resources</id>
+            <phase>generate-resources</phase>
+            <configuration>
+              <outputDirectory>target/test-classes/public</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>../../PetStoreUi/public</directory>
+                  <filtering>false</filtering>
+                </resource>
+              </resources>
+            </configuration>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
   </build>
 </project>

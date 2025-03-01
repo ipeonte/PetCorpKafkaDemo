@@ -30,7 +30,7 @@
 		<pet-shared.version>2.0.0</pet-shared.version>
 		<pet-shared-jpa.version>1.0.0</pet-shared-jpa.version>
 		<common-security.version>2.0.0</common-security.version>
-		<petstore-shared.version>2.0.0</petstore-shared.version>
+	<petstore-shared.version>2.0.0</petstore-shared.version>
 		<jacoco-plugin.version>0.8.12</jacoco-plugin.version>
 	</properties>
 
@@ -45,7 +45,6 @@
 	<modules>
 		<module>CommonSecurity</module>
 		<module>PetCorpDemoAuthServer</module>
-		<module>PetCorpParent</module>
 		<module>PetShared</module>
 		<module>PetSharedJpa</module>
 		<module>PetStoreShared</module>

@@ -3,6 +3,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.example.demo.pet-corp</groupId>
+	<artifactId>release-info</artifactId>
+	<version>1.0.0</version>
+	<packaging>pom</packaging>
+	<name>PetCorpReleaseInfo</name>
+	<description>List of project's version to be incluided into release</description>
 	
 	<parent>
 		<groupId>com.example.demo.pet-corp</groupId>
@@ -11,21 +17,21 @@
 		<relativePath>../</relativePath>
 	</parent>
 	
-	<artifactId>parent-petcorp</artifactId>
-	<packaging>pom</packaging>
-	<name>PetCorpParent</name>
-	<description>List or projects to be included into release</description>
-	
 	<licenses>
 		<license>
 			<name>GNU Lesser General Public License v3.0</name>
 			<url>http://www.gnu.org/licenses/lgpl-3.0.txt</url>
 		</license>
 	</licenses>
-
+	
 	<properties>
-		<petstore-core.version>1.2.3</petstore-core.version>
-		<petoffice-core.version>4.5.6</petoffice-core.version>
-		<adapter-core.version>7.8.9</adapter-core.version>
+		<petstore-api.version>1.2.3</petstore-api.version>
+		<petoffice-api.version>4.5.6</petoffice-api.version>
+		<petadoption-adapter.version>7.8.9</petadoption-adapter.version>
 	</properties>
+
+	<modules>
+		<module>PetCorpUiTestShared</module>
+		<module>PetCorpUiTest</module>
+	</modules>
 </project>
