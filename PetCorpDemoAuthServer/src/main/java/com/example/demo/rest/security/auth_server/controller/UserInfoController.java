@@ -12,7 +12,7 @@ public class UserInfoController {
 
   @GetMapping("/user_info")
   public String showLoginInfo(Authentication authentication, HttpServletRequest req) {
-    // Insert user name was used from login from standard http session
+    // Retrieve user name from standard http session where it was injected during login 
     String message = Constants.USER_NAME_KEY + ":"
         + req.getSession(false).getAttribute(Constants.USER_NAME_KEY).toString() + "|";
 
