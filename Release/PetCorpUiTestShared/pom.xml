@@ -14,7 +14,7 @@
 	<packaging>jar</packaging>
 	<artifactId>ui-test-shared</artifactId>
 
-	<name>PetStoreUiTestShared</name>
+	<name>PetCorpUiTestShared</name>
 	<description>Shared UI test library</description>
 
 	<licenses>

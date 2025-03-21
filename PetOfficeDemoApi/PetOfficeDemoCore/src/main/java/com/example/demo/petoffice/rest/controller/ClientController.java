@@ -27,12 +27,6 @@ public class ClientController {
   @Autowired
   private ClientService clientService;
 
-  /*********************************/
-  /** Common Section **/
-  /**
-   * @throws PetOfficeExeption
-   *******************************/
-
   @GetMapping("/clients")
   public List<ClientDto> getClients(@RequestParam(required = false) String st)
       throws PetOfficeExeption {

@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,6 +23,7 @@ import com.example.demo.petcorp.shared.SharedConstants;
 import com.example.demo.petcorp.shared.dto.PetAdoptionDto;
 import com.example.demo.petoffice.rest.jpa.model.ClientPetRef;
 import com.example.demo.petoffice.rest.jpa.repo.ClientPetRepository;
+import com.example.demo.petoffice.rest.jpa.repo.ClientRepository;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
@@ -37,6 +39,15 @@ public class PetOfficeStoryTest {
 
   @Autowired
   private ClientPetRepository cpRepo;
+
+  @Autowired
+  ClientRepository clientRepo;
+
+  @BeforeEach
+  public void clear() {
+    // Clear ClientPetRef table
+    cpRepo.deleteAll();
+  }
 
   @Test
   void testGetAllCustomers() {
@@ -69,9 +80,7 @@ public class PetOfficeStoryTest {
     this.input.send(new GenericMessage<String>(SharedConstants.MAPPER.writeValueAsString(petInfo)));
 
     // 2. Check if message about pet adoption received and inserted into ClientPetRef table
-    List<ClientPetRef> list = cpRepo.findAll();
-    assertNotNull(list, "List of ClientPetRef is empty.");
-    assertEquals(1, list.size(), "Size of ClientPetRef list doesn't match.");
+    List<ClientPetRef> list = checkClientPetRef(1);
 
     ClientPetRef cp = list.get(0);
     assertEquals(petId, cp.getPetId(), "Pet Id doesn't match.");
@@ -95,10 +104,42 @@ public class PetOfficeStoryTest {
     assertEquals(HttpStatus.OK, response.getStatusCode());
   }
 
+  @Test
+  public void testInvalidMessage() {
+    // Send invalid message
+    this.input.send(new GenericMessage<String>("test"));
+
+    // Check no record added to the ClientPetRef table
+    checkClientPetRef(0);
+  }
+
+  @Test
+  public void testInvalidScenario() {
+    // Test for non-existing client
+    ResponseEntity<String> resp =
+        _rest.getForEntity(SharedConstants.BASE_URL + "/clients/0/pets", String.class);
+    assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, resp.getStatusCode());
+
+    // Expected no data for synthetic tests
+    // getClientPetsList(0, 0, true);
+  }
+
+  private List<ClientPetRef> checkClientPetRef(int size) {
+    List<ClientPetRef> list = cpRepo.findAll();
+    assertNotNull(list, "List of ClientPetRef is empty.");
+    assertEquals(size, list.size(), "Size of ClientPetRef list doesn't match.");
+    return list;
+  }
+
   private List<Integer> getClientPetsList(long clientId, int size) {
+    return getClientPetsList(clientId, size, false);
+  }
+
+  private List<Integer> getClientPetsList(long clientId, int size, boolean stf) {
     @SuppressWarnings("unchecked")
-    List<Integer> pets =
-        _rest.getForObject(SharedConstants.BASE_URL + "/clients/" + clientId + "/pets", List.class);
+    List<Integer> pets = _rest.getForObject(
+        SharedConstants.BASE_URL + "/clients/" + clientId + "/pets" + (stf ? "?st=" : ""),
+        List.class);
 
     assertNotNull(pets, "List of pets is NULL");
     assertEquals(size, pets.size(), "pets list size doesn't match.");
