@@ -30,7 +30,7 @@
 		<pet-shared.version>2.0.0</pet-shared.version>
 		<pet-shared-jpa.version>1.0.0</pet-shared-jpa.version>
 		<common-security.version>2.0.0</common-security.version>
-	<petstore-shared.version>2.0.0</petstore-shared.version>
+		<petstore-shared.version>2.0.0</petstore-shared.version>
 		<jacoco-plugin.version>0.8.12</jacoco-plugin.version>
 	</properties>
 
@@ -42,6 +42,52 @@
 		</dependency>
 	</dependencies>
 
+	<dependencyManagement>
+	    <dependencies>
+	      <dependency>
+	        <groupId>org.springframework.cloud</groupId>
+	        <artifactId>spring-cloud-dependencies</artifactId>
+	        <version>${spring-cloud.version}</version>
+	        <type>pom</type>
+	        <scope>import</scope>
+	      </dependency>
+	    </dependencies>
+	</dependencyManagement>
+  
+	<profiles>
+		<profile>
+		  <id>release</id>
+			<properties>
+				<skipTests>true</skipTests>
+			</properties>
+		</profile>
+	</profiles>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.12</version>
+				<executions>
+				<execution>
+					<goals>
+						<goal>prepare-agent</goal>
+					</goals>
+				</execution>
+				<!-- attached to Maven test phase -->
+				<execution>
+					<id>report</id>
+					<phase>test</phase>
+					<goals>
+						<goal>report</goal>
+					</goals>
+			</execution>
+		</executions>
+			</plugin>
+		</plugins>
+	</build>
+	
 	<modules>
 		<module>CommonSecurity</module>
 		<module>PetCorpDemoAuthServer</module>
@@ -52,26 +98,5 @@
 		<module>PetStoreDemoApi</module>
 		<module>PetOfficeDemoApi</module>
 	</modules>
-  
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>org.springframework.cloud</groupId>
-        <artifactId>spring-cloud-dependencies</artifactId>
-        <version>${spring-cloud.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
-  
-  <profiles>
-	<profile>
-	  <id>release</id>
-		<properties>
-			<skipTests>true</skipTests>
-		</properties>
-	</profile>
-  </profiles>
 
 </project>
