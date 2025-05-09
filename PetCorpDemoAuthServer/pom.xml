@@ -27,6 +27,22 @@
 			<artifactId>security-core</artifactId>
 			<version>${common-security.version}</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.example.rest.common.security</groupId>
+			<artifactId>security-core</artifactId>
+			<version>${common-security.version}</version>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
+		
+		<!-- Embedded Redis used for integration tests -->
+		<dependency>
+			<groupId>com.github.kstyrc</groupId>
+			<artifactId>embedded-redis</artifactId>
+			<version>0.6</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
