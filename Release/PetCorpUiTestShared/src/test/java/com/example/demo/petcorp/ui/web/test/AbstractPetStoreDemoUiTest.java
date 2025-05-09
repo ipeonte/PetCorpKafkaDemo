@@ -66,7 +66,7 @@ public abstract class AbstractPetStoreDemoUiTest {
     // options.addArguments("start-maximized"); Doesn't work in headless mode
     options.addArguments("disable-infobars");
     // Enable if headless execution is needed
-    // options.addArguments("headless");
+    options.addArguments("headless");
 
     // Set Chrome Driver
     System.setProperty("webdriver.chrome.driver", "./driver/chromedriver");
