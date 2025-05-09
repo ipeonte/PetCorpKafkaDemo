@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.event.EventListener;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import com.example.rest.common.security.core.Constants;
@@ -16,6 +17,7 @@ import jakarta.servlet.http.HttpSession;
  * @author Igor Peonte <igor.144@gmail.com>
  *
  */
+@EnableWebSecurity
 @SpringBootApplication
 public class AuthServerWebApp {
 
