@@ -3,11 +3,17 @@ package com.example.demo.rest.security.auth_server;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
+
 import com.example.rest.common.security.core.CookieProperties;
+
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * Security Configuration
@@ -38,7 +44,9 @@ public class AuthServerConfig {
           .requestMatchers("/favicon.ico").permitAll()
           // Everything authenticated except login page
           .anyRequest().authenticated())
-          
+      	.exceptionHandling(exh -> exh.authenticationEntryPoint((request, response, ex) -> {
+      		response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ex.getMessage());
+      	}))
       
       // Disable logout redirect
       .logout(logout -> logout.logoutSuccessUrl("/login").permitAll())
@@ -56,6 +64,7 @@ public class AuthServerConfig {
   @Bean
   InMemoryUserDetailsManager userDetailsServiceEx() {
     // @formatter:off
+	
     InMemoryUserDetailsManager mgr = new InMemoryUserDetailsManager();
     mgr.createUser(User.builder()
       .username("user").password("{noop}password").roles("USER_0").build());
@@ -65,6 +74,7 @@ public class AuthServerConfig {
         .username("pet_keeper").password("{noop}password").roles("PET_KEEPER_01", "USER_0").build());
 
     // @formatter:on
+    
     return mgr;
   }
 }

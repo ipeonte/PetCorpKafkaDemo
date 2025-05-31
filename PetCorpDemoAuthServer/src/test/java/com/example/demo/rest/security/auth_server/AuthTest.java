@@ -49,7 +49,14 @@ public class AuthTest {
     String ssoCookie = response.getHeaders().getFirst(HttpHeaders.SET_COOKIE);
     String sso = ssoCookie.substring(ssoCookie.indexOf("SSO_SESSION="), ssoCookie.indexOf(";"));
 
+    // Get user info without SSO
+
     // Get user info
+    response = _rest.getForEntity("/user_info", String.class);
+    assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode(),
+        "UserInfo response status code doesn't match.");
+    
+    // Get user info with SSO    
     UserInfo userInfo = getUserInfo(sso);
     assertEquals(userName, userInfo.name());
     assertEquals(1, userInfo.roles().length);
