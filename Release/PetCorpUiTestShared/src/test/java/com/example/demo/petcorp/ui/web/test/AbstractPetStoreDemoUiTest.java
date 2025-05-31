@@ -66,10 +66,10 @@ public abstract class AbstractPetStoreDemoUiTest {
     // options.addArguments("start-maximized"); Doesn't work in headless mode
     options.addArguments("disable-infobars");
     // Enable if headless execution is needed
-    options.addArguments("headless");
+    // options.addArguments("headless");
 
-    // Set Chrome Driver
-    System.setProperty("webdriver.chrome.driver", "./driver/chromedriver");
+    // Set Chrome Driver    
+    System.setProperty("webdriver.chrome.driver", "./driver/" + getChromeDriverName());
     System.setProperty("webdriver.chrome.silentOutput", "true");
 
     driver = new ChromeDriver(options);
@@ -149,6 +149,17 @@ public abstract class AbstractPetStoreDemoUiTest {
     deleteTestPetClose(petId);
   }
 
+  private String getChromeDriverName() {
+	  String os = System.getProperty("os.name").toLowerCase();
+	  String fname =  os.contains("win") ? "chromedriver.exe" : (os.contains("nix") || os.contains("nux")
+              || os.contains("aix") ? "chromedriver" : null);
+	  
+	  if (fname == null)
+		  throw new RuntimeException();
+	  
+	  return fname;
+  }
+  
   private void adoptPet(int petId) throws Exception {
     // Click on selected
     driver.findElement(By.cssSelector("input[type=checkbox]")).click();
