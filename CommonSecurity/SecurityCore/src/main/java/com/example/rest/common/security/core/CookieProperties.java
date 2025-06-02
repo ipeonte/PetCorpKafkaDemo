@@ -13,6 +13,8 @@ public class CookieProperties {
 
   private String path;
 
+  private String protocol;
+  
   public String getDomain() {
     return domain == null ? Constants.DEF_COOKIE_DOMAIN : domain;
   }
@@ -27,5 +29,17 @@ public class CookieProperties {
 
   public void setPath(String path) {
     this.path = path;
+  }
+  
+  public String getProtocol() {
+	return protocol == null ? Constants.DEF_PROTOCOL : protocol;
+  }
+  
+  public void setProtocol(String protocol) {
+	this.protocol = protocol;
+  }
+  
+  public String getRedirectPath() {
+	return getProtocol() + "://" + getDomain() + getPath();
   }
 }

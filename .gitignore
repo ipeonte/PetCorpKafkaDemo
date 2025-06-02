@@ -6,3 +6,5 @@ target
 .factorypath
 *.m2
 mysql.properties
+*.bat
+sso.txt

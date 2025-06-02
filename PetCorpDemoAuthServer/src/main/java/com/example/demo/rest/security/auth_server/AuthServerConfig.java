@@ -54,7 +54,7 @@ public class AuthServerConfig {
       // Using basic form login with custom login page
       .formLogin(form -> form.loginPage("/login")
           // Redirect back to cookie domain
-          .defaultSuccessUrl("http://" + cookieProperties.getDomain() + "/user_info").permitAll());
+          .defaultSuccessUrl(cookieProperties.getRedirectPath()).permitAll());
     
     // @formatter:on
 

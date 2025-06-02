@@ -17,6 +17,9 @@ public class Constants {
     // Default cookie path that was set by authentication server
     public static final String DEF_COOKIE_PATH = "/";
     
+    // Default protocol for redirection
+    public static final String DEF_PROTOCOL = "http";
+    
     // Session parameter name that that was set by authentication server. It holds user name used during login
     public static final String USER_NAME_KEY = "userName";
 
