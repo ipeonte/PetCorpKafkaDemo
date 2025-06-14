@@ -8,3 +8,4 @@ target
 mysql.properties
 *.bat
 sso.txt
+*.jar
