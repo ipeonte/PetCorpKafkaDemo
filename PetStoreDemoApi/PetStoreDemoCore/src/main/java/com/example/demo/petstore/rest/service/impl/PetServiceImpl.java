@@ -30,136 +30,135 @@ import jakarta.transaction.Transactional;
 @Service
 public class PetServiceImpl implements PetService {
 
-  @Autowired
-  private PetsRepository petRepo;
+	@Autowired
+	private PetsRepository petRepo;
 
-  @Autowired
-  private StreamBridge streamBridge;
+	@Autowired
+	private StreamBridge streamBridge;
 
-  @Override
-  public List<PetBaseDto> getVaccinatedPets(boolean stf) throws PetStoreExeption {
-    List<Pet> pets;
+	@Override
+	public List<PetBaseDto> getVaccinatedPets(boolean stf) throws PetStoreExeption {
+		List<Pet> pets;
 
-    try {
-      pets = petRepo.findVaccinatedAdoptedPets("Y", "N", stf);
-    } catch (Exception e) {
-      throw new PetStoreExeption(PetStoreErrors.ERROR_FIND_VACCINATED_PET, e);
-    }
+		try {
+			pets = petRepo.findVaccinatedAdoptedPets("Y", "N", stf);
+		} catch (Exception e) {
+			throw new PetStoreExeption(PetStoreErrors.ERROR_FIND_VACCINATED_PET, e);
+		}
 
-    return pets.stream().map(pet -> new PetBaseDto(pet.getId(), pet.getName(),
-        PetSex.valueOf(pet.getSex().toUpperCase()))).collect(Collectors.toList());
-  }
+		return pets.stream()
+				.map(pet -> new PetBaseDto(pet.getId(), pet.getName(), PetSex.valueOf(pet.getSex().toUpperCase())))
+				.collect(Collectors.toList());
+	}
 
-  @Override
-  public List<PetInfoDto> getAllPets(boolean stf) throws PetStoreExeption {
-    List<PetInfoDto> pets = new ArrayList<>();
+	@Override
+	public List<PetInfoDto> getAllPets(boolean stf) throws PetStoreExeption {
+		List<PetInfoDto> pets = new ArrayList<>();
 
-    try {
-      petRepo.findAllByAdoptedOrderByNameAsc("N", stf)
-          .forEach(pet -> pets.add(new PetInfoDto(pet.getId(), pet.getName(),
-              PetSex.valueOf(pet.getSex().toUpperCase()), pet.getVaccinated())));
-    } catch (Exception e) {
-      throw new PetStoreExeption(PetStoreErrors.ERROR_GET_ALL_PETS, e);
-    }
+		try {
+			petRepo.findAllByAdoptedOrderByNameAsc("N", stf).forEach(pet -> pets.add(new PetInfoDto(pet.getId(),
+					pet.getName(), PetSex.valueOf(pet.getSex().toUpperCase()), pet.getVaccinated())));
+		} catch (Exception e) {
+			throw new PetStoreExeption(PetStoreErrors.ERROR_GET_ALL_PETS, e);
+		}
 
-    return pets;
-  }
+		return pets;
+	}
 
-  @Override
-  public PetInfoDto getPetById(Long petId, boolean stf) throws PetStoreExeption {
-    return mapPetToPetInfoDto(findPetById(petId, stf));
-  }
+	@Override
+	public PetInfoDto getPetById(Long petId, boolean stf) throws PetStoreExeption {
+		return mapPetToPetInfoDto(findPetById(petId, stf));
+	}
 
-  @Override
-  public PetInfoDto addPet(PetInfoDto pet, boolean stf) throws PetStoreExeption {
-    Pet record;
+	@Override
+	public PetInfoDto addPet(PetInfoDto pet, boolean stf) throws PetStoreExeption {
+		Pet record;
 
-    try {
-      record = petRepo.save(new Pet(pet.getName(), pet.getSex().name(), pet.getVaccinated(), stf));
-    } catch (Exception e) {
-      throw new PetStoreExeption(PetStoreErrors.ERROR_ADD_PET, e);
-    }
+		try {
+			record = petRepo.save(new Pet(pet.getName(), pet.getSex().name(), pet.getVaccinated(), stf));
+		} catch (Exception e) {
+			throw new PetStoreExeption(PetStoreErrors.ERROR_ADD_PET, e);
+		}
 
-    return new PetInfoDto(record.getId(), record.getName(), PetSex.valueOf(record.getSex()),
-        record.getVaccinated());
-  }
+		return new PetInfoDto(record.getId(), record.getName(), PetSex.valueOf(record.getSex()),
+				record.getVaccinated());
+	}
 
-  @Override
-  public PetBaseDto getVaccinatedPetById(Long petId, boolean stf) throws PetStoreExeption {
-    Pet pet;
+	@Override
+	public PetBaseDto getVaccinatedPetById(Long petId, boolean stf) throws PetStoreExeption {
+		Pet pet;
 
-    try {
-      pet = petRepo.findVaccinatedAdoptedPetById(petId, "Y", "N", stf);
-    } catch (Exception e) {
-      throw new PetStoreExeption(PetStoreErrors.ERROR_GET_VACCINATED_PET_BY_ID, e);
-    }
+		try {
+			pet = petRepo.findVaccinatedAdoptedPetById(petId, "Y", "N", stf);
+		} catch (Exception e) {
+			throw new PetStoreExeption(PetStoreErrors.ERROR_GET_VACCINATED_PET_BY_ID, e);
+		}
 
-    return (pet != null ? new PetBaseDto(pet.getId(), pet.getName(), PetSex.valueOf(pet.getSex()))
-        : null);
-  }
+		return (pet != null ? new PetBaseDto(pet.getId(), pet.getName(), PetSex.valueOf(pet.getSex())) : null);
+	}
 
-  @Override
-  public PetInfoDto setVaccinatedStatus(Long id, boolean isVaccinated, boolean stf)
-      throws PetStoreExeption {
-    Pet pet = findExistingPetById(id, stf);
-    pet.setVaccinated(isVaccinated);
+	@Override
+	public PetInfoDto setVaccinatedStatus(Long id, boolean isVaccinated, boolean stf) throws PetStoreExeption {
+		Pet pet = findExistingPetById(id, stf);
+		pet.setVaccinated(isVaccinated);
 
-    return mapPetToPetInfoDto(petRepo.save(pet));
-  }
+		return mapPetToPetInfoDto(petRepo.save(pet));
+	}
 
-  @Override
-  public void adoptPet(Long petId, Long clientId, boolean stf) throws PetStoreExeption {
-    // Before marking pet record as "Adopted" send notification about adopted pet
-    Pet adopted = findExistingPetById(petId, stf);
+	@Override
+	public void adoptPet(Long petId, Long clientId, boolean stf) throws PetStoreExeption {
+		// Before marking pet record as "Adopted" send notification about adopted pet
+		Pet adopted = findExistingPetById(petId, stf);
 
-    PetAdoptionDto adoption = mapPetToPetAdoptionDto(petId, clientId, stf);
+		PetAdoptionDto adoption = mapPetToPetAdoptionDto(petId, clientId, stf);
 
-    // Convert to JSON and send
-    String json;
-    try {
-      json = SharedConstants.MAPPER.writeValueAsString(adoption);
-    } catch (JsonProcessingException e) {
-      throw new PetStoreExeption(PetStoreErrors.ERROR_CONVERT_ADOP_EVENT, e);
-    }
+		// Convert to JSON and send
+		String json = writeValueAsString(adoption);
 
-    streamBridge.send(Constants.ADOPT_PET_OUT, json);
-    SharedConstants.LOG.info("Sent Pet Adoption Request to downstream systems - " + adoption);
+		streamBridge.send(Constants.ADOPT_PET_OUT, json);
+		SharedConstants.LOG.info("Sent Pet Adoption Request to downstream systems - " + adoption);
 
-    // Set pet adopted & save
-    adopted.setAdopted("Y");
-    petRepo.save(adopted);
-  }
+		// Set pet adopted & save
+		adopted.setAdopted("Y");
+		petRepo.save(adopted);
+	}
 
-  private Optional<Pet> findPetById(Long id, boolean stf) throws PetStoreExeption {
-    try {
-      return petRepo.findPetById(id, stf);
-    } catch (Exception e) {
-      throw new PetStoreExeption(PetStoreErrors.ERROR_GET_PET_BY_ID, e);
-    }
-  }
+	public static String writeValueAsString(Object value) throws PetStoreExeption {
+		try {
+			return SharedConstants.MAPPER.writeValueAsString(value);
+		} catch (JsonProcessingException e) {
+			throw new PetStoreExeption(PetStoreErrors.ERROR_CONVERT_ADOP_PET, e);
+		}
+	}
 
-  private Pet findExistingPetById(Long id, boolean stf) throws PetStoreExeption {
-    return findPetById(id, stf)
-        .orElseThrow(() -> new PetStoreExeption(PetStoreErrors.ERROR_PET_NOT_FOUND,
-            "Pet id " + id + " not found."));
-  }
+	private Optional<Pet> findPetById(Long id, boolean stf) throws PetStoreExeption {
+		try {
+			return petRepo.findPetById(id, stf);
+		} catch (Exception e) {
+			throw new PetStoreExeption(PetStoreErrors.ERROR_GET_PET_BY_ID, e);
+		}
+	}
 
-  private PetAdoptionDto mapPetToPetAdoptionDto(long petId, long clientId, boolean stf) {
-    return new PetAdoptionDto(petId, clientId, stf);
-  }
+	private Pet findExistingPetById(Long id, boolean stf) throws PetStoreExeption {
+		return findPetById(id, stf).orElseThrow(
+				() -> new PetStoreExeption(PetStoreErrors.ERROR_PET_NOT_FOUND, "Pet id " + id + " not found."));
+	}
 
-  private PetInfoDto mapPetToPetInfoDto(Optional<Pet> pet) {
-    return pet.map(p -> mapPetToPetInfoDto(p)).orElse(null);
-  }
+	private PetAdoptionDto mapPetToPetAdoptionDto(long petId, long clientId, boolean stf) {
+		return new PetAdoptionDto(petId, clientId, stf);
+	}
 
-  private PetInfoDto mapPetToPetInfoDto(Pet pet) {
-    return new PetInfoDto(pet.getId(), pet.getName(), PetSex.valueOf(pet.getSex()),
-        pet.getVaccinated());
-  }
+	private PetInfoDto mapPetToPetInfoDto(Optional<Pet> pet) {
+		return pet.map(p -> mapPetToPetInfoDto(p)).orElse(null);
+	}
 
-  @Override
-  @Transactional
-  public void clearSynthTestData() {
-    petRepo.deleteStData();
-  }
+	private PetInfoDto mapPetToPetInfoDto(Pet pet) {
+		return new PetInfoDto(pet.getId(), pet.getName(), PetSex.valueOf(pet.getSex()), pet.getVaccinated());
+	}
+
+	@Override
+	@Transactional
+	public void clearSynthTestData() {
+		petRepo.deleteStData();
+	}
 }
