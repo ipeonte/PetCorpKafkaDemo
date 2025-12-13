@@ -57,8 +57,9 @@ public class PetOfficeStoryTest {
   }
 
   /**
-   * 1. Push adoption pet event 2. Check if message about pet adoption received and inserted into
-   * ClientPetRef table 3. Check if client has a new adopted pet
+   * 1. Push adoption pet event
+   * 2. Check if message about pet adoption received and inserted into ClientPetRef table
+   * 3. Check if client has a new adopted pet
    * 
    * @throws JsonParseException
    * @throws JsonMappingException

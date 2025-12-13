@@ -1,6 +1,7 @@
 package com.example.demo.petcorp.shared;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.concurrent.CountDownLatch;
@@ -36,5 +37,11 @@ public class TestUtils {
 
   public static void waitCountDown(CountDownLatch count) throws InterruptedException {
     count.await(isDebug() ? WAIT_TIME * 100 : WAIT_TIME, TimeUnit.SECONDS);
+  }
+
+  public static String getFileNameWithoutExt(Path path) {
+    String fname = path.getFileName().toString();
+    int pos = fname.lastIndexOf(".");
+    return (pos == -1) ? fname : fname.substring(0, pos);
   }
 }
